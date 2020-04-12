@@ -1,0 +1,2 @@
+user_id	user_name	user_password	user_nickname	solved_problem	attemped_problem	favorite_problem	owned_group	entered_group	owned_contest	entered_contest	favorite_user
+10000	herod	herod	herod	1000,1001,1002	1003,1004,1005	1002	1001	1002	10001,10002	10003,10004	10001
