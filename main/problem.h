@@ -1,8 +1,4 @@
 #include <bits/stdc++.h>
-#include "user.h"
-#include "group.h"
-#include "contest.h"
-//#include "problem.h"
 using namespace std;
 
 // 题目类
@@ -19,11 +15,11 @@ struct Problem{
 int Find_pro();                                 // 查找题目
 int View_pro(int pro_id);                       // 查看题目详情
 /** new **/
-void Show_problems();                           // 查看所有题目
+void Show_problems(string type,int user_id);                           // 查看所有题目
 
 // Problem篇
 int Find_pro(){cout<<"待开发……"<<endl;}                                 // 查找题目
 int View_pro(int pro_id){cout<<"待开发……"<<endl;}                       // 查看题目详情
 /** new **/
-void Show_problems(){cout<<"待开发……"<<endl;}                           // 查看所有题目
+void Show_problems(string type,int user_id){cout<<"待开发……"<<endl;}                           // 查看所有题目
 

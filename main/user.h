@@ -1,8 +1,4 @@
 #include <bits/stdc++.h>
-//#include "user.h"
-#include "group.h"
-#include "contest.h"
-#include "problem.h"
 using namespace std;
 
 // ÓÃ»§Àà
@@ -36,8 +32,8 @@ int Create_contest();                           // ´´½¨±ÈÈü
 //int View_user_rank();                         // ²é¿´ËùÓĞÓÃ»§ÅÅÃû
 /** new  **/
 void user_show_info(int user_id);               // ²é¿´¸öÈËĞÅÏ¢
-/** new  **/
 void Show_users();                              // ²é¿´ËùÓĞÓÃ»§
+
 
 // UserÆª
 int Sign_out(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}
@@ -48,19 +44,41 @@ int Create_group(int user_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                  // ´´½
 int Apply_group(int user_id,int group_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}      // ÉêÇë¼ÓÈëÓÃ»§×é
 int Create_contest(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                           // ´´½¨±ÈÈü
 void Show_users(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                              // ²é¿´ËùÓĞÓÃ»§
+void View_user(int uid,int user_id);                                    // ²é¿´Ä³¸öÓÃ»§ĞÅÏ¢
+void Find_user(int user_id);                                            // ²éÕÒÓÃ»§
 
 void user_show_info(int user_id)
 {
-    cout<<"ÄãÊÇ×î°ôµÄcoder£¬¼ÓÓÍ"<<endl;
-    cout<<"1.ĞŞ¸ÄĞÅÏ¢   2.ÍË³ö"<<endl;
+    while(true){
+        cout<<"ÄãÊÇ×î°ôµÄcoder£¬¼ÓÓÍ"<<endl;
+        cout<<"1.ĞŞ¸ÄĞÅÏ¢   2.ÍË³ö"<<endl;
+        string opt;
+        cin>>opt;
+        if(opt == "1") Change_info(user_id);
+        if(opt == "2") return;
+
+    }
 }
 
+void View_user(int uid,int user_id)
+{
+    cout<<"´ı¿ª·¢..."<<endl;
+}
+
+void Find_user(int user_id)
+{
+    cout<<"´ı¿ª·¢...."<<endl;
+}
 
 int Sign_up()
 {
     cout<<"×¢²á³É¹¦£¡"<<endl;
+    cout<<"°´ÈÎÒâ¼ü·µ»Ø"<<endl;
+    getchar();
+    getchar();
     return 1;
 }
+
 
 int Sign_in()
 {
