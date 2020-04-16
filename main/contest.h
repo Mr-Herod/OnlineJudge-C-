@@ -51,15 +51,15 @@ struct Contest{
 
 // Contest篇
 int Find_contest(int user_id);                             // 查找比赛
-int View_contest(int contest_id);               // 查看比赛
+int View_contest(int contest_id,int user_id);               // 查看比赛
 int Run_contest(int contest_id);                // 运行比赛（重中之重，比较难实现）
 /** new **/
-void Show_contests(string args);
+void Show_contests(string type,int user_id);
 
 // Contest篇
 int Find_contest(int user_id){cout<<"待开发……"<<endl;}                             // 查找比赛
-int View_contest(int contest_id){cout<<"待开发……"<<endl;}               // 查看比赛
+int View_contest(int contest_id,int user_id){cout<<"待开发……"<<endl;}               // 查看比赛
 int Run_contest(int contest_id){cout<<"待开发……"<<endl;}                // 运行比赛（重中之重，比较难实现）
 /** new **/
-void Show_contests(string args){cout<<"待开发……"<<endl;}                           // 查看所有题目
+void Show_contests(string type,int user_id){cout<<"待开发……"<<endl;}                           // 查看所有题目
 

@@ -35,6 +35,8 @@ void Index_page()
             int user_id = Sign_in();
             if(user_id != -1)
                 Home_page(user_id);
+            else
+                cout<<"输入有误请重试"<<endl;
         }
         if(opt == "3")  {cout<<"See you next time."<<endl;getchar();getchar();return;}
     }
@@ -46,6 +48,7 @@ void Home_page(int user_id)
     string opt;
     while(true)
     {
+        cout<<"牛人自制在线评测系统(个人信息页) "<<endl;
         cout<<"1.查看个人信息   2.查看题目  3.查看比赛  4.查看用户  5.查看组   6.退出"<<endl;
         cin>>opt;
         if(opt == "1")  user_show_info(user_id);
@@ -60,23 +63,25 @@ void Home_page(int user_id)
 
 void Contest_page(int user_id)
 {
-    Show_contests("all");
+    Show_contests("all",user_id);
     string opt;
     while(true)
     {
-        cout<<"1.全部比赛   2.我的比赛  3.查看比赛  4.搜索比赛  5.返回"<<endl;
+        cout<<"牛人自制在线评测系统(比赛页) "<<endl;
+        cout<<"1.全部比赛   2.我的比赛  3.查看比赛  4.搜索比赛  5.创建比赛  6.返回"<<endl;
         cin>>opt;
-        if(opt == "1") Show_contests("all");
-        if(opt == "2") Show_contests("own");
+        if(opt == "1") Show_contests("all",user_id);
+        if(opt == "2") Show_contests("own",user_id);
         if(opt == "3")
         {
             int contest_id;
             cout<<"请输入比赛ID:";
             cin>>contest_id;
-            View_contest(contest_id);
+            View_contest(contest_id,user_id);
         }
         if(opt == "4") Find_contest(user_id);
-        if(opt == "5") return;
+        if(opt == "5") Create_contest(user_id);
+        if(opt == "6") return;
     }
 }
 
@@ -86,13 +91,15 @@ void Probelm_page(int user_id)
     string opt;
     while(true)
     {
-        cout<<"1.通过的题目  2.尝试的题目 3.所有题目  4.查看题目  5.返回"<<endl;
+        cout<<"牛人自制在线评测系统(题目页) "<<endl;
+        cout<<"1.通过的题目  2.尝试的题目 3.所有题目  4.查看题目  5.搜索题目  5.返回"<<endl;
         cin>>opt;
         if(opt == "1") Show_problems("solved",user_id);
         if(opt == "2") Show_problems("attempted",user_id);
         if(opt == "3") Show_problems("all",user_id);
-        if(opt == "4") View_pro(1);
-        if(opt == "5") return;
+        if(opt == "4") View_pro(1,user_id);
+        if(opt == "5") Find_pro(user_id);
+        if(opt == "6") return;
     }
 }
 
@@ -102,6 +109,7 @@ void User_page(int user_id)
     string opt;
     while(true)
     {
+        cout<<"牛人自制在线评测系统(用户页) "<<endl;
         cout<<"1.查看用户   2.搜索用户   3.返回"<<endl;
         cin>>opt;
         if(opt == "1")
@@ -122,11 +130,13 @@ void Gruop_page(int user_id)
     string opt;
     while(true)
     {
-        cout<<"1.查看自己用户组    2.查看所有用户组   3.查找用户组     4.返回"<<endl;
+        cout<<"牛人自制在线评测系统(用户组页) "<<endl;
+        cout<<"1.查看自己用户组    2.查看所有用户组   3.查找用户组     4.创建用户组 5.返回"<<endl;
         cin>>opt;
         if(opt == "1") Show_groups("own",user_id);
         if(opt == "2") Show_groups("all",user_id);
         if(opt == "3") Find_group(user_id);
-        if(opt == "4") return;
+        if(opt == "4") Create_group(user_id);
+        if(opt == "5") return;
     }
 }

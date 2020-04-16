@@ -27,7 +27,7 @@ int Submit_pro(int pro_id,int user_id);         // Ìá½»´úÂë
 int Mark_user(int user_id,int dest_id);         // ¹Ø×¢ÓÃ»§
 int Create_group(int user_id);                  // ´´½¨ÓÃ»§×é
 int Apply_group(int user_id,int group_id);      // ÉêÇë¼ÓÈëÓÃ»§×é
-int Create_contest();                           // ´´½¨±ÈÈü
+int Create_contest(int user_id);                // ´´½¨±ÈÈü
 /** deleted **/
 //int View_user_rank();                         // ²é¿´ËùÓĞÓÃ»§ÅÅÃû
 /** new  **/
@@ -42,7 +42,7 @@ int Submit_pro(int pro_id,int user_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}         // Ìá½
 int Mark_user(int user_id,int dest_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}         // ¹Ø×¢ÓÃ»§
 int Create_group(int user_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                  // ´´½¨ÓÃ»§×é
 int Apply_group(int user_id,int group_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}      // ÉêÇë¼ÓÈëÓÃ»§×é
-int Create_contest(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                           // ´´½¨±ÈÈü
+int Create_contest(int user_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                           // ´´½¨±ÈÈü
 void Show_users(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                              // ²é¿´ËùÓĞÓÃ»§
 void View_user(int uid,int user_id);                                    // ²é¿´Ä³¸öÓÃ»§ĞÅÏ¢
 void Find_user(int user_id);                                            // ²éÕÒÓÃ»§
