@@ -13,7 +13,7 @@ struct Problem{
 
 // Problem篇
 int Find_pro(int user_id);                                 // 查找题目
-int View_pro(int pro_id);                       // 查看题目详情
+int View_pro(int pro_id,int user_id);                       // 查看题目详情
 /** new **/
 void Show_problems(string type,int user_id);                           // 查看所有题目
 

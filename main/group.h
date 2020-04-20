@@ -4,8 +4,8 @@ using namespace std;
 // 用户组类
 struct Group{
     int group_id;                   // 用户组ID
-    int group_name;                 // 用户组名
     int group_owner;                // 用户组创建者
+    string group_name;                 // 用户组名
     vector<int> group_member;       // 用户组成员
     vector<int> group_contest;      // 用户组创建的比赛
 };

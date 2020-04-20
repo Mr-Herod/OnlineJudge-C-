@@ -8,7 +8,7 @@ struct User{
     string user_password;           // ÓÃ»§ÃÜÂë
     string user_nickname;           // ÓÃ»§êÇ³Æ
     vector<int> solved_problem;     // ½â¾öµÄÌâÄ¿
-    vector<int> attemped_problem;   // ³¢ÊÔµ«Î´½â¾öµÄÌâÄ¿
+    vector<int> attempted_problem;   // ³¢ÊÔµ«Î´½â¾öµÄÌâÄ¿
     vector<int> favorite_problem;   // ÊÕ²ØµÄÌâÄ¿
     vector<int> owned_group;        // ´´½¨µÄÓÃ»§×é
     vector<int> entered_group;      // ¼ÓÈëµÄÓÃ»§×é
@@ -47,6 +47,9 @@ void Show_users(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                              // ²é¿
 void View_user(int uid,int user_id);                                    // ²é¿´Ä³¸öÓÃ»§ĞÅÏ¢
 void Find_user(int user_id);                                            // ²éÕÒÓÃ»§
 
+
+void get_users();
+
 void user_show_info(int user_id)
 {
     while(true){
@@ -56,7 +59,6 @@ void user_show_info(int user_id)
         cin>>opt;
         if(opt == "1") Change_info(user_id);
         if(opt == "2") return;
-
     }
 }
 
@@ -72,9 +74,15 @@ void Find_user(int user_id)
 
 int Sign_up()
 {
+    string usrname,nickname,pwd;
+    int id;
+    cin>>id>>usrname>>nickname>>pwd;
+    string msg;
+    msg = usrname+","+nickname+","+pwd;
+    cout<<id<<","<<msg<<endl;;
+    getchar();
     cout<<"×¢²á³É¹¦£¡"<<endl;
     cout<<"°´ÈÎÒâ¼ü·µ»Ø"<<endl;
-    getchar();
     getchar();
     return 1;
 }

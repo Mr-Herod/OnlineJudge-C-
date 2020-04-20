@@ -7,12 +7,12 @@
 using namespace std;
 
 // Main flow
-void Index_page();
-void Home_page(int user_id);
-void Probelm_page(int user_id);
-void Contest_page(int user_id);
-void User_page(int user_id);
-void Gruop_page(int user_id);
+void Index_page();                  // 引导页面
+void Home_page(int user_id);        // 用户主页
+void Probelm_page(int user_id);     // 问题页面
+void Contest_page(int user_id);     // 比赛页面
+void User_page(int user_id);        // 用户页面
+void Gruop_page(int user_id);       // 用户组页面
 
 int main()
 {
@@ -92,7 +92,7 @@ void Probelm_page(int user_id)
     while(true)
     {
         cout<<"牛人自制在线评测系统(题目页) "<<endl;
-        cout<<"1.通过的题目  2.尝试的题目 3.所有题目  4.查看题目  5.搜索题目  5.返回"<<endl;
+        cout<<"1.通过的题目  2.尝试的题目 3.所有题目  4.查看题目  5.搜索题目  6.返回"<<endl;
         cin>>opt;
         if(opt == "1") Show_problems("solved",user_id);
         if(opt == "2") Show_problems("attempted",user_id);
