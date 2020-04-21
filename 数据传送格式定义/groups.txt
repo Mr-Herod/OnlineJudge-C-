@@ -1,2 +1,0 @@
-group_id	group_name	group_owner	group_member	group_contest
-1001	group1	10001	10001,10002	10001,10002

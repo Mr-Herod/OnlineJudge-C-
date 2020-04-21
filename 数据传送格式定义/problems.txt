@@ -1,2 +1,0 @@
-pro_id	pro_num	pro_oj	pro_title	pro_source	pro_description
-1001	1001	poj	hello	JXNU	""" print "hello world" """
