@@ -13,45 +13,62 @@ class myThread(threading.Thread):
         msg = bytes.decode(self.ss.recv(10024))
         print(msg)
         info = msg.split(':::')
-        self.cursor.execute("insert into User values(0,'"+info[1]+"','"+info[2]+"','"+info[3]+"',' ',' ',' ',' ',' ',' ',' ',' ');")
-        self.conn.commit()
-        self.ss.send(b"\nsign up succeeded!")
-        self.ss.close()
+        if(info[0] == "create_user"):
+            self.create_user(info[1:])
+        elif(info[0] == "create_group"):
+            self.create_group(info[1:])
+        elif(info[0] == "create_contest"):
+            self.create_contest(info[1:])
+        elif(info[0] == "get_user"):
+            self.send_info("User")
+        elif(info[0] == "get_group"):
+            self.send_info("groups")
+        elif(info[0] == "get_contest"):
+            self.send_info("contest")
+        elif(info[0] == "get_problem"):
+            self.send_info("problem")
+        elif(info[0] == "get_running_contest"):
+            self.send_running_contest()
+
     
-    def create_user(self,sta,cursor):
-        pass
+    def create_user(self,info):
+        self.cursor.execute("insert into User values(0,'"+info[0]+"','"+info[1]+"','"+info[2]+"',' ',' ',' ',' ',' ',' ',' ',' ');")
     
-    def create_group(self,sta,cursor):
-        pass
+    def create_group(self,info):
+        self.cursor.execute("insert into groups values(0,"+info[0]+",'"+info[1]+"',' ',' ');")
     
-    def create_contest(self,sta,cursor):
-        pass
-    
-    def group_add_user(self,sta,cursor):
-        pass
-    
-    def group_add_contest(self,sta,cursor):
-        pass
-    
-    def submit_code(self,sta,cursor):
-        pass
-    
-    def submit_code_from_contest(self,sta,cursor):
-        pass
-    
-    def send_user_info(self,cursor):
-        pass
-    
-    def send_group_info(self,cursor):
-        pass
+    def create_contest(self,info):
+        self.cursor.execute("insert into contest values(0,"+info[0]+","+info[1]+","+info[2]+","+info[3]+",'"+info[4]+"','"+info[5]+"','pending',' ','"+info[6]+"',' ');")
         
-    def send_problem_info(self,cursor):
-        pass
-        
-    def send_contest_info(self,cursor):
+    def group_add_user(self,sta):
         pass
     
-    def send_running_contest(self,cursor):
+    def group_add_contest(self,sta):
+        pass
+    
+    def submit_code(self,sta):
+        pass
+    
+    def submit_code_from_contest(self,sta):
+        pass
+    
+    def send_info(self,table_name):
+        self.cursor.execute("select * from "+table_name+";")
+        rs = self.cursor.fetchall()
+        if(rs == ()):
+            self.ss.send(b' ')
+            return
+
+        msg = ""
+        print(rs)
+        for r in rs:
+            for i in r:
+                msg += str(i)+":::"
+            msg = msg[:-3]+"&&&"
+        msg = msg[:-3]
+        self.ss.send(msg.encode())
+
+    def send_running_contest(self):
         pass
 
 # 连接数据库
