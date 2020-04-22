@@ -1,5 +1,3 @@
-#ifndef _CONTEST_H
-#define _CONTEST_H
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -110,4 +108,3 @@ void Show_rank(int contest_id)
         cout<<i<<"\t(name)herod\t(score)3\t(oenalty)100"<<endl;
     }
 }
-#endif            // magic code don't touch  !!!

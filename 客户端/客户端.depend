@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1587555723 source:e:\github_projects\onlinejudge-c-\客户端\main.cpp
+	<bits/stdc++.h>
+	"user.h"
+	"group.h"
+	"contest.h"
+	"problem.h"
+	"datatrans.h"
+
+1587556095 e:\github_projects\onlinejudge-c-\客户端\user.h
+	"datatrans.h"
+	<bits/stdc++.h>
+
+1587552438 e:\github_projects\onlinejudge-c-\客户端\group.h
+	<bits/stdc++.h>
+
+1587552493 e:\github_projects\onlinejudge-c-\客户端\contest.h
+	<bits/stdc++.h>
+
+1587555557 e:\github_projects\onlinejudge-c-\客户端\problem.h
+	<bits/stdc++.h>
+
+1587552498 e:\github_projects\onlinejudge-c-\客户端\datatrans.h
+	<bits/stdc++.h>
+	<WinSock2.h>
+

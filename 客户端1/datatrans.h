@@ -1,9 +1,8 @@
-#ifndef _DATATRANS_H
-#define _DATATRANS_H
 #include <bits/stdc++.h>
 #include <WinSock2.h>
 //#pragma comment(lib, "libws2_32.a")
 using namespace std;
+
 
 SOCKET ScoketClient;
 
@@ -17,7 +16,7 @@ int socket_init(int port,string addr)
     WSADATA Wsd;
     if(WSAStartup(MAKEWORD(1,1),&Wsd) != 0)
     {
-        cout << "服务器连接失败：套接字启动失败" << endl;
+        cout << "服务器连接失败：初始化套接字动态库失败" << endl;
         return -1;
     }
     ScoketClient = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
@@ -69,5 +68,3 @@ void socket_close()
     closesocket(ScoketClient);
     WSACleanup();
 }
-
-#endif            // magic code don't touch  !!!

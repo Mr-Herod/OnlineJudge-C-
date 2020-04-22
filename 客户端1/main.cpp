@@ -17,9 +17,7 @@ void Gruop_page(int user_id);       // 用户组页面
 
 int main()
 {
-    socket_init(12345,"39.97.242.228");
     Index_page();
-    socket_close();
     return 0;
 }
 

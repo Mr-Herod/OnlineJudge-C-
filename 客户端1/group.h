@@ -1,5 +1,3 @@
-#ifndef _GROUP_H
-#define _GROUP_H
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -31,6 +29,3 @@ int Add_member(int user_id,int group_id,int dest_id){cout<<"待开发……"<<endl;} 
 /** new **/
 void Show_groups(string type,int user_id){cout<<"待开发……"<<endl;}                 // 查看所有组
 void Find_group(int user_id){cout<<"待开发……"<<endl;}                              // 查找用户组
-
-
-#endif            // magic code don't touch  !!!

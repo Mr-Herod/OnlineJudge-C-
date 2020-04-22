@@ -1,5 +1,3 @@
-#ifndef _PROBLEM_H
-#define _PROBLEM_H
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -25,5 +23,3 @@ int View_pro(int pro_id,int user_id){cout<<"待开发……"<<endl;}                 
 /** new **/
 void Show_problems(string type,int user_id){cout<<"待开发……"<<endl;}                           // 查看所有题目
 
-
-#endif            // magic code don't touch  !!!
