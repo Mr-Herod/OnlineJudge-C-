@@ -13,7 +13,7 @@ class myThread(threading.Thread):
         msg = bytes.decode(self.ss.recv(10024))
         print(msg)
         info = msg.split(':::')
-        self.cursor.execute("insert into User values(0,'"+info[1]+"','"+info[2]+"',' ',' ',' ',' ',' ',' ',' ',' ','"+info[3]+"');")
+        self.cursor.execute("insert into User values(0,'"+info[1]+"','"+info[2]+"','"+info[3]+"',' ',' ',' ',' ',' ',' ',' ',' ');")
         self.conn.commit()
         self.ss.send(b"\nsign up succeeded!")
         self.ss.close()
