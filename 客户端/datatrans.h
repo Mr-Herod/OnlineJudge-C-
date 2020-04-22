@@ -57,7 +57,7 @@ int send_data(string str)
 
 string recv_data(string opt)
 {
-    //send(ScoketClient, (char*)opt.data(), opt.size() ,0);
+    send(ScoketClient, (char*)opt.data(), opt.size() ,0);
     char RECVBuff[10024];
     memset(RECVBuff,0,sizeof(RECVBuff));
     recv(ScoketClient,RECVBuff,10024, 0);

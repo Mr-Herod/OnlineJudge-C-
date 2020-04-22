@@ -83,7 +83,6 @@ int Sign_up()
     string str;
     str="create_user:::"+username+":::"+nickname+":::"+word;
     send_data(str);
-    cout<<recv_data("none")<<endl;
     cout<<"注册成功！"<<endl;
     cout<<"按任意键返回"<<endl;
     getchar();
