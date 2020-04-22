@@ -1,88 +1,139 @@
 #include <bits/stdc++.h>
-using namespace std;
+#include <WinSock2.h>
 
-// ÓÃ»§Àà
+using namespace std;
+// ç”¨æˆ·ç±»
 struct User{
-    int    user_id;                 // ÓÃ»§ID
-    string user_name;               // ÓÃ»§Ãû
-    string user_password;           // ÓÃ»§ÃÜÂë
-    string user_nickname;           // ÓÃ»§êÇ³Æ
-    vector<int> solved_problem;     // ½â¾öµÄÌâÄ¿
-    vector<int> attempted_problem;   // ³¢ÊÔµ«Î´½â¾öµÄÌâÄ¿
-    vector<int> favorite_problem;   // ÊÕ²ØµÄÌâÄ¿
-    vector<int> owned_group;        // ´´½¨µÄÓÃ»§×é
-    vector<int> entered_group;      // ¼ÓÈëµÄÓÃ»§×é
-    vector<int> owned_contest;      // ´´½¨µÄ±ÈÈü
-    vector<int> entered_contest;    // ²Î¼ÓµÄ±ÈÈü£¨ÓĞÌá½»¼ÇÂ¼¾ÍËã²Î¼Ó£©
-    vector<int> favorite_user;      // ¹Ø×¢µÄÓÃ»§
+    int    user_id;                 // ç”¨æˆ·ID
+    string user_name;               // ç”¨æˆ·å
+    string user_password;           // ç”¨æˆ·å¯†ç 
+    string user_nickname;           // ç”¨æˆ·æ˜µç§°
+    vector<int> solved_problem;     // è§£å†³çš„é¢˜ç›®
+    vector<int> attemped_problem;   // å°è¯•ä½†æœªè§£å†³çš„é¢˜ç›®
+    vector<int> favorite_problem;   // æ”¶è—çš„é¢˜ç›®
+    vector<int> owned_group;        // åˆ›å»ºçš„ç”¨æˆ·ç»„
+    vector<int> entered_group;      // åŠ å…¥çš„ç”¨æˆ·ç»„
+    vector<int> owned_contest;      // åˆ›å»ºçš„æ¯”èµ›
+    vector<int> entered_contest;    // å‚åŠ çš„æ¯”èµ›ï¼ˆæœ‰æäº¤è®°å½•å°±ç®—å‚åŠ ï¼‰
+    vector<int> favorite_user;      // å…³æ³¨çš„ç”¨æˆ·
 };
 
 
-// UserÆª
-int Sign_up();                                  // ÓÃ»§×¢²á
-int Sign_in();                                  // ÓÃ»§µÇÂ¼
-int Sign_out();                                 // ÓÃ»§ÍË³ö
-int Change_info(int user_id);                   // ĞŞ¸Ä¸öÈËĞÅÏ¢
-int Submit_pro(int pro_id,int user_id);         // Ìá½»´úÂë
-int Mark_user(int user_id,int dest_id);         // ¹Ø×¢ÓÃ»§
-int Create_group(int user_id);                  // ´´½¨ÓÃ»§×é
-int Apply_group(int user_id,int group_id);      // ÉêÇë¼ÓÈëÓÃ»§×é
-int Create_contest(int user_id);                // ´´½¨±ÈÈü
+// Userç¯‡
+int Sign_up();                                  // ç”¨æˆ·æ³¨å†Œ
+int Sign_in();                                  // ç”¨æˆ·ç™»å½•
+int Sign_out();                                 // ç”¨æˆ·é€€å‡º
+int Change_info(int user_id);                   // ä¿®æ”¹ä¸ªäººä¿¡æ¯
+int Submit_pro(int pro_id,int user_id);         // æäº¤ä»£ç 
+int Mark_user(int user_id,int dest_id);         // å…³æ³¨ç”¨æˆ·
+int Create_group(int user_id);                  // åˆ›å»ºç”¨æˆ·ç»„
+int Apply_group(int user_id,int group_id);      // ç”³è¯·åŠ å…¥ç”¨æˆ·ç»„
+int Create_contest(int user_id);                // åˆ›å»ºæ¯”èµ›
 /** deleted **/
-//int View_user_rank();                         // ²é¿´ËùÓĞÓÃ»§ÅÅÃû
+//int View_user_rank();                         // æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·æ’å
 /** new  **/
-void user_show_info(int user_id);               // ²é¿´¸öÈËĞÅÏ¢
-void Show_users();                              // ²é¿´ËùÓĞÓÃ»§
+void user_show_info(int user_id);               // æŸ¥çœ‹ä¸ªäººä¿¡æ¯
+void Show_users();                              // æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·
 
-
-// UserÆª
-int Sign_out(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}
-int Change_info(int user_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                   // ĞŞ¸Ä¸öÈËĞÅÏ¢
-int Submit_pro(int pro_id,int user_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}         // Ìá½»´úÂë
-int Mark_user(int user_id,int dest_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}         // ¹Ø×¢ÓÃ»§
-int Create_group(int user_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                  // ´´½¨ÓÃ»§×é
-int Apply_group(int user_id,int group_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}      // ÉêÇë¼ÓÈëÓÃ»§×é
-int Create_contest(int user_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                           // ´´½¨±ÈÈü
-void Show_users(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                              // ²é¿´ËùÓĞÓÃ»§
-void View_user(int uid,int user_id);                                    // ²é¿´Ä³¸öÓÃ»§ĞÅÏ¢
-void Find_user(int user_id);                                            // ²éÕÒÓÃ»§
-
-
-void get_users();
+int test(string str)
+{
+    const int BUF_SIZE = 64;
+    int RetVal;
+    WSADATA Wsd;
+    if(WSAStartup(MAKEWORD(1,1),&Wsd) != 0)
+    {
+        cout << "åˆå§‹åŒ–å¥—æ¥å­—åŠ¨æ€åº“å¤±è´¥" << endl;
+        return -1;
+    }
+    SOCKET ScoketClient;
+    ScoketClient = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+    if (ScoketClient == INVALID_SOCKET)
+    {
+        cout << "åˆ›å»ºå¥—æ¥å­—å¤±è´¥" << endl;
+        WSACleanup();
+        return -1;
+    }
+    SOCKADDR_IN ServerAddr;
+    ServerAddr.sin_family = AF_INET;
+    ServerAddr.sin_port = htons(12345);
+    ServerAddr.sin_addr.S_un.S_addr = inet_addr("39.97.242.228");
+    RetVal = connect(ScoketClient, (SOCKADDR*)&ServerAddr, sizeof(ServerAddr));
+    if (RetVal == SOCKET_ERROR)
+    {
+        cout << "é“¾æ¥æœåŠ¡å™¨å¤±è´¥" << endl;
+        closesocket(ScoketClient);
+        WSACleanup();
+        return -1;
+    }
+    char SendBuff[BUF_SIZE];
+    char RECVBuff[BUF_SIZE];
+    ZeroMemory(SendBuff, BUF_SIZE);
+    //cout << "å‘æœåŠ¡å™¨å‘é€æ•°æ®" << endl;
+    //cin >> SendBuff;
+    RetVal = send(ScoketClient, (char*)str.data(), str.size() ,0);
+    if (RetVal == SOCKET_ERROR)
+    {
+        cout << "å‘é€æ•°æ®å¤±è´¥" << endl;
+        closesocket(ScoketClient);
+        WSACleanup();
+        return -1;
+    }
+    ZeroMemory(RECVBuff, BUF_SIZE);
+    recv(ScoketClient, RECVBuff, BUF_SIZE, 0);
+    cout << endl << "ä»æœåŠ¡å™¨æ¥æ”¶æ•°æ®:" << RECVBuff << endl;
+    closesocket(ScoketClient);
+    WSACleanup();
+}
+// Userç¯‡
+int Sign_out(){cout<<"å¾…å¼€å‘â€¦â€¦"<<endl;}
+int Change_info(int user_id){cout<<"å¾…å¼€å‘â€¦â€¦"<<endl;}                   // ä¿®æ”¹ä¸ªäººä¿¡æ¯
+//int Submit_pro(int pro_id,int user_id){cout<<"å¾…å¼€å‘â€¦â€¦"<<endl;}       // æäº¤ä»£ç 
+int Mark_user(int user_id,int dest_id){cout<<"å¾…å¼€å‘â€¦â€¦"<<endl;}         // å…³æ³¨ç”¨æˆ·
+int Create_group(int user_id){cout<<"å¾…å¼€å‘â€¦â€¦"<<endl;}                  // åˆ›å»ºç”¨æˆ·ç»„
+int Apply_group(int user_id,int group_id){cout<<"å¾…å¼€å‘â€¦â€¦"<<endl;}      // ç”³è¯·åŠ å…¥ç”¨æˆ·ç»„
+int Create_contest(int user_id){cout<<"å¾…å¼€å‘â€¦â€¦"<<endl;}                // åˆ›å»ºæ¯”èµ›
+void Show_users(){cout<<"å¾…å¼€å‘â€¦â€¦"<<endl;}                              // æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·
+void View_user(int uid,int user_id);                                    // æŸ¥çœ‹æŸä¸ªç”¨æˆ·ä¿¡æ¯
+void Find_user(int user_id);                                            // æŸ¥æ‰¾ç”¨æˆ·
 
 void user_show_info(int user_id)
 {
     while(true){
-        cout<<"ÄãÊÇ×î°ôµÄcoder£¬¼ÓÓÍ"<<endl;
-        cout<<"1.ĞŞ¸ÄĞÅÏ¢   2.ÍË³ö"<<endl;
+        cout<<"ä½ æ˜¯æœ€æ£’çš„coderï¼ŒåŠ æ²¹"<<endl;
+        cout<<"1.ä¿®æ”¹ä¿¡æ¯   2.é€€å‡º"<<endl;
         string opt;
         cin>>opt;
         if(opt == "1") Change_info(user_id);
         if(opt == "2") return;
+
     }
 }
 
 void View_user(int uid,int user_id)
 {
-    cout<<"´ı¿ª·¢..."<<endl;
+    cout<<"å¾…å¼€å‘..."<<endl;
 }
 
 void Find_user(int user_id)
 {
-    cout<<"´ı¿ª·¢...."<<endl;
+    cout<<"å¾…å¼€å‘...."<<endl;
 }
 
 int Sign_up()
 {
-    string usrname,nickname,pwd;
-    int id;
-    cin>>id>>usrname>>nickname>>pwd;
-    string msg;
-    msg = usrname+","+nickname+","+pwd;
-    cout<<id<<","<<msg<<endl;;
+    string username,nickname,word;
+    cout<<"è¯·è¾“å…¥ç”¨æˆ·åï¼š";
+    cin>>username;
+    cout<<"è¯·è¾“å…¥ç”¨æˆ·æ˜µç§°ï¼š";
+    cin>>nickname;
+    cout<<"è¯·è¾“å…¥å¯†ç :";
+    cin>>word;
+    string str;
+    str="create_user:::"+username+":::"+nickname+":::"+word;
+    test(str);
+    cout<<"æ³¨å†ŒæˆåŠŸï¼"<<endl;
+    cout<<"æŒ‰ä»»æ„é”®è¿”å›"<<endl;
     getchar();
-    cout<<"×¢²á³É¹¦£¡"<<endl;
-    cout<<"°´ÈÎÒâ¼ü·µ»Ø"<<endl;
     getchar();
     return 1;
 }
@@ -90,6 +141,7 @@ int Sign_up()
 
 int Sign_in()
 {
+
     if(true)
     {
         return 1;
