@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1587538568 source:c:\users\13686\desktop\code_cfile\vjudge\main.cpp
+	<bits/stdc++.h>
+	"user.h"
+	"group.h"
+	"contest.h"
+	"problem.h"
+	"datatrans.h"
+
+1587538279 c:\users\13686\desktop\code_cfile\vjudge\user.h
+	<bits/stdc++.h>
+	<WinSock2.h>
+
+1587194401 c:\users\13686\desktop\code_cfile\vjudge\group.h
+	<bits/stdc++.h>
+
+1587368533 c:\users\13686\desktop\code_cfile\vjudge\contest.h
+	<bits/stdc++.h>
+
+1587049748 c:\users\13686\desktop\code_cfile\vjudge\problem.h
+	<bits/stdc++.h>
+
+1587536763 c:\users\13686\desktop\code_cfile\vjudge\datatrans.h
+	<bits/stdc++.h>
+	<WinSock2.h>
+
