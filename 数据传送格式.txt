@@ -16,7 +16,7 @@
 --------------------------------------------------------------------------------
 服务端向客户端发送数据：
 
-发送用户信息   格式:   "user_id:::user_name:::user_password:::user_nickname:::solved_prob1::solved_prob2:::attemped_prob1::attemped_prob2:::favorite_pro1::favorite_pro2:::owned_group1::owned_group2:::entered_group1::entered_group2:::owned_contest1::owned_contest2:::entered_contest1::entered_contest2:::favorite_user1::favorite_user2&&&user_info2&&&user_info2&&&user_info3"
+发送用户信息   格式:   "user_id:::user_name:::user_nickname:::user_password:::solved_prob1::solved_prob2:::attemped_prob1::attemped_prob2:::favorite_pro1::favorite_pro2:::owned_group1::owned_group2:::entered_group1::entered_group2:::owned_contest1::owned_contest2:::entered_contest1::entered_contest2:::favorite_user1::favorite_user2&&&user_info2&&&user_info2&&&user_info3"
 发送用户组信息 格式:   "group_id:::group_owner:::group_name:::group_memb1::group_memb2:::group_contest1::group_contest2&&&group_info2&&&group_info3"
 发送题目信息   格式:   "pro_id:::pro_num:::pro_od:::pro_title:::pro_source:::pro_description&&&pro_info2&&&pro_info3"
 发送比赛信息   格式:   "contest_id:::contest_title:::contest_owner:::contest_group:::contest_start_time:::contest_length:::contest_type:::contest_status:::prob1::prob2::prob3&&&contest_info2&&&contest_info3"
