@@ -66,6 +66,8 @@ string recv_data(string opt)
 
 void socket_close()
 {
+    string opt = "exit";
+    send(ScoketClient, (char*)opt.data(), opt.size() ,0);
     closesocket(ScoketClient);
     WSACleanup();
 }
