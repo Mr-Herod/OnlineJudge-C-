@@ -8,12 +8,12 @@
 using namespace std;
 
 // Main flow
-void Index_page();                  // Òıµ¼Ò³Ãæ
-void Home_page(int user_id);        // ÓÃ»§Ö÷Ò³
-void Probelm_page(int user_id);     // ÎÊÌâÒ³Ãæ
-void Contest_page(int user_id);     // ±ÈÈüÒ³Ãæ
-void User_page(int user_id);        // ÓÃ»§Ò³Ãæ
-void Gruop_page(int user_id);       // ÓÃ»§×éÒ³Ãæ
+void Index_page();                  // å¼•å¯¼é¡µé¢
+void Home_page(int user_id);        // ç”¨æˆ·ä¸»é¡µ
+void Probelm_page(int user_id);     // é—®é¢˜é¡µé¢
+void Contest_page(int user_id);     // æ¯”èµ›é¡µé¢
+void User_page(int user_id);        // ç”¨æˆ·é¡µé¢
+void Gruop_page(int user_id);       // ç”¨æˆ·ç»„é¡µé¢
 
 int main()
 {
@@ -29,17 +29,20 @@ void Index_page()
     string opt;
     while(true)
     {
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 "<<endl;
-        cout<<"1.×¢²á    2.µÇÂ¼   3.ÍË³ö"<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 "<<endl;
+        cout<<"1.æ³¨å†Œ    2.ç™»å½•   3.é€€å‡º"<<endl;
         cin>>opt;
         if(opt == "1")  Sign_up();
         if(opt == "2")
         {
             int user_id = Sign_in();
-            if(user_id != -1)
+            if(user_id == 1)
                 Home_page(user_id);
-            else
-                cout<<"ÊäÈëÓĞÎóÇëÖØÊÔ"<<endl;
+            else if(user_id == -1)
+                cout<<"å¯†ç è¾“å…¥æœ‰è¯¯è¯·é‡è¯•"<<endl;
+            else {
+                cout<<"è´¦æˆ·è¾“å…¥æœ‰è¯¯è¯·é‡è¯•"<<endl;
+            }
         }
         if(opt == "3")  {cout<<"See you next time."<<endl;getchar();getchar();return;}
     }
@@ -51,8 +54,8 @@ void Home_page(int user_id)
     string opt;
     while(true)
     {
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³(¸öÈËĞÅÏ¢Ò³) "<<endl;
-        cout<<"1.²é¿´¸öÈËĞÅÏ¢   2.²é¿´ÌâÄ¿  3.²é¿´±ÈÈü  4.²é¿´ÓÃ»§  5.²é¿´×é   6.ÍË³ö"<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ(ä¸ªäººä¿¡æ¯é¡µ) "<<endl;
+        cout<<"1.æŸ¥çœ‹ä¸ªäººä¿¡æ¯   2.æŸ¥çœ‹é¢˜ç›®  3.æŸ¥çœ‹æ¯”èµ›  4.æŸ¥çœ‹ç”¨æˆ·  5.æŸ¥çœ‹ç»„   6.é€€å‡º"<<endl;
         cin>>opt;
         if(opt == "1")  user_show_info(user_id);
         if(opt == "2")  Probelm_page(user_id);
@@ -70,15 +73,15 @@ void Contest_page(int user_id)
     string opt;
     while(true)
     {
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³(±ÈÈüÒ³) "<<endl;
-        cout<<"1.È«²¿±ÈÈü   2.ÎÒµÄ±ÈÈü  3.²é¿´±ÈÈü  4.ËÑË÷±ÈÈü  5.´´½¨±ÈÈü  6.·µ»Ø"<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ(æ¯”èµ›é¡µ) "<<endl;
+        cout<<"1.å…¨éƒ¨æ¯”èµ›   2.æˆ‘çš„æ¯”èµ›  3.æŸ¥çœ‹æ¯”èµ›  4.æœç´¢æ¯”èµ›  5.åˆ›å»ºæ¯”èµ›  6.è¿”å›"<<endl;
         cin>>opt;
         if(opt == "1") Show_contests("all",user_id);
         if(opt == "2") Show_contests("own",user_id);
         if(opt == "3")
         {
             int contest_id;
-            cout<<"ÇëÊäÈë±ÈÈüID:";
+            cout<<"è¯·è¾“å…¥æ¯”èµ›ID:";
             cin>>contest_id;
             View_contest(contest_id,user_id);
         }
@@ -94,8 +97,8 @@ void Probelm_page(int user_id)
     string opt;
     while(true)
     {
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³(ÌâÄ¿Ò³) "<<endl;
-        cout<<"1.Í¨¹ıµÄÌâÄ¿  2.³¢ÊÔµÄÌâÄ¿ 3.ËùÓĞÌâÄ¿  4.²é¿´ÌâÄ¿  5.ËÑË÷ÌâÄ¿  6.·µ»Ø"<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ(é¢˜ç›®é¡µ) "<<endl;
+        cout<<"1.é€šè¿‡çš„é¢˜ç›®  2.å°è¯•çš„é¢˜ç›® 3.æ‰€æœ‰é¢˜ç›®  4.æŸ¥çœ‹é¢˜ç›®  5.æœç´¢é¢˜ç›®  6.è¿”å›"<<endl;
         cin>>opt;
         if(opt == "1") Show_problems("solved",user_id);
         if(opt == "2") Show_problems("attempted",user_id);
@@ -112,13 +115,13 @@ void User_page(int user_id)
     string opt;
     while(true)
     {
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³(ÓÃ»§Ò³) "<<endl;
-        cout<<"1.²é¿´ÓÃ»§   2.ËÑË÷ÓÃ»§   3.·µ»Ø"<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ(ç”¨æˆ·é¡µ) "<<endl;
+        cout<<"1.æŸ¥çœ‹ç”¨æˆ·   2.æœç´¢ç”¨æˆ·   3.è¿”å›"<<endl;
         cin>>opt;
         if(opt == "1")
         {
             int uid;
-            cout<<"ÇëÊäÈëÓÃ»§ID:";
+            cout<<"è¯·è¾“å…¥ç”¨æˆ·ID:";
             cin>>uid;
             View_user(uid,user_id);
         }
@@ -133,8 +136,8 @@ void Gruop_page(int user_id)
     string opt;
     while(true)
     {
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³(ÓÃ»§×éÒ³) "<<endl;
-        cout<<"1.²é¿´×Ô¼ºÓÃ»§×é    2.²é¿´ËùÓĞÓÃ»§×é   3.²éÕÒÓÃ»§×é     4.´´½¨ÓÃ»§×é 5.·µ»Ø"<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ(ç”¨æˆ·ç»„é¡µ) "<<endl;
+        cout<<"1.æŸ¥çœ‹è‡ªå·±ç”¨æˆ·ç»„    2.æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·ç»„   3.æŸ¥æ‰¾ç”¨æˆ·ç»„     4.åˆ›å»ºç”¨æˆ·ç»„ 5.è¿”å›"<<endl;
         cin>>opt;
         if(opt == "1") Show_groups("own",user_id);
         if(opt == "2") Show_groups("all",user_id);
