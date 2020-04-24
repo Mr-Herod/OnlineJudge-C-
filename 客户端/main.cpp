@@ -29,7 +29,7 @@ void test()
 
 int main()
 {
-    test(); return 0;
+    //test(); return 0;
     socket_init(12345,"39.97.242.228");
     Index_page();
     socket_close();

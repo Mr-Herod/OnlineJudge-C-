@@ -10,26 +10,33 @@ class myThread(threading.Thread):
         self.conn = conn
 
     def run(self):
-        msg = bytes.decode(self.ss.recv(10024))
-        print(msg)
-        info = msg.split(':::')
-        if(info[0] == "create_user"):
-            self.create_user(info[1:])
-        elif(info[0] == "create_group"):
-            self.create_group(info[1:])
-        elif(info[0] == "create_contest"):
-            self.create_contest(info[1:])
-        elif(info[0] == "get_user"):
-            self.send_info("User")
-        elif(info[0] == "get_group"):
-            self.send_info("groups")
-        elif(info[0] == "get_contest"):
-            self.send_info("contest")
-        elif(info[0] == "get_problem"):
-            self.send_info("problem")
-        elif(info[0] == "get_running_contest"):
-            self.send_running_contest()
-
+        try:
+            while(True):
+                msg = bytes.decode(self.ss.recv(10024))
+                print(msg)
+                info = msg.split(':::')
+                if(info[0] == "create_user"):
+                    self.create_user(info[1:])
+                elif(info[0] == "create_group"):
+                    self.create_group(info[1:])
+                elif(info[0] == "create_contest"):
+                    self.create_contest(info[1:])
+                elif(info[0] == "get_user"):
+                    self.send_info("User")
+                elif(info[0] == "get_group"):
+                    self.send_info("groups")
+                elif(info[0] == "get_contest"):
+                    self.send_info("contest")
+                elif(info[0] == "get_problem"):
+                    self.send_info("problem")
+                elif(info[0] == "get_running_contest"):
+                    self.send_running_contest()
+                elif(info[0] == "exit"):
+                    self.ss.close()
+                self.conn.commit()
+                time.sleep(3)
+        except:
+            self.ss.close()
     
     def create_user(self,info):
         self.cursor.execute("insert into User values(0,'"+info[0]+"','"+info[1]+"','"+info[2]+"',' ',' ',' ',' ',' ',' ',' ',' ');")
@@ -96,6 +103,6 @@ while(True):
             s.close()
             conn.close()
     except:
-        raise
-
+        s.close()
+        conn.close()
 
