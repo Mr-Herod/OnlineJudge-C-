@@ -49,7 +49,9 @@ void Index_page()
         if(opt == "2")
         {
             int user_id = Sign_in();
-            if(user_id == 1)
+            cout<<"user logged!"<<endl;
+            cout<<user_id<<endl;
+            if(user_id != -1)
                 Home_page(user_id);
             else if(user_id == -1)
                 cout<<"密码输入有误请重试"<<endl;
@@ -96,7 +98,7 @@ void Contest_page(int user_id)
             int contest_id;
             cout<<"请输入比赛ID:";
             cin>>contest_id;
-            View_contest(contest_id,user_id);
+            IC_view_contest(contest_id,user_id);
         }
         if(opt == "4") Find_contest(user_id);
         if(opt == "5") Create_contest(user_id);

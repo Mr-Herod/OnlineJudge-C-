@@ -1,5 +1,7 @@
 #ifndef _GROUP_H
 #define _GROUP_H
+#include "datatrans.h"
+#include "dataconv.h"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -17,10 +19,9 @@ struct Group{
 int Delete_group(int user_id,int group_id);                 // 删除用户组
 int View_group_contest(int group_id);                       // 查看用户组的比赛
 int Add_member(int user_id,int group_id,int dest_id);       // 添加新成员
-/** new **/
+int Create_group(int user_id);                  // 创建用户组
 void Show_groups(string type,int user_id);                  // 查看所有组
 void Find_group(int user_id);                               // 查找用户组
-
 
 
 
@@ -28,9 +29,9 @@ void Find_group(int user_id);                               // 查找用户组
 int Delete_group(int user_id,int group_id){cout<<"待开发……"<<endl;}                // 删除用户组
 int View_group_contest(int group_id){cout<<"待开发……"<<endl;}                      // 查看用户组的比赛
 int Add_member(int user_id,int group_id,int dest_id){cout<<"待开发……"<<endl;}      // 添加新成员
-/** new **/
 void Show_groups(string type,int user_id){cout<<"待开发……"<<endl;}                 // 查看所有组
 void Find_group(int user_id){cout<<"待开发……"<<endl;}                              // 查找用户组
+int Create_group(int user_id){cout<<"待开发……"<<endl;}                  // 创建用户组
 
 
 #endif            // magic code don't touch  !!!

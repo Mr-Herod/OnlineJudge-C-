@@ -1,5 +1,7 @@
 #ifndef _PROBLEM_H
 #define _PROBLEM_H
+#include "datatrans.h"
+#include "dataconv.h"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -16,13 +18,12 @@ struct Problem{
 // Problem篇
 int Find_pro(int user_id);                                 // 查找题目
 int View_pro(int pro_id,int user_id);                       // 查看题目详情
-/** new **/
 void Show_problems(string type,int user_id);                           // 查看所有题目
+int Submit_pro(int pro_id,int user_id);         // 提交代码
 
 // Problem篇
 int Find_pro(int user_id){cout<<"待开发……"<<endl;}                                 // 查找题目
 int View_pro(int pro_id,int user_id){cout<<"待开发……"<<endl;}                       // 查看题目详情
-/** new **/
 void Show_problems(string type,int user_id){cout<<"待开发……"<<endl;}                           // 查看所有题目
 
 

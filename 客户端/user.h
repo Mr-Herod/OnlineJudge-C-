@@ -1,6 +1,7 @@
 #ifndef _USER_H
 #define _USER_H
 #include "datatrans.h"
+#include "dataconv.h"
 #include <bits/stdc++.h>
 using namespace std;
 struct User{
@@ -24,26 +25,18 @@ int Sign_up();                                  // 用户注册
 int Sign_in();                                  // 用户登录
 int Sign_out();                                 // 用户退出
 int Change_info(int user_id);                   // 修改个人信息
-int Submit_pro(int pro_id,int user_id);         // 提交代码
 int Mark_user(int user_id,int dest_id);         // 关注用户
-int Create_group(int user_id);                  // 创建用户组
 int Apply_group(int user_id,int group_id);      // 申请加入用户组
-int Create_contest(int user_id);                // 创建比赛
-/** deleted **/
-//int View_user_rank();                         // 查看所有用户排名
-/** new  **/
 void user_show_info(int user_id);               // 查看个人信息
 void Show_users();                              // 查看所有用户
+
 
 
 // User篇
 int Sign_out(){cout<<"待开发……"<<endl;}
 int Change_info(int user_id){cout<<"待开发……"<<endl;}                   // 修改个人信息
-//int Submit_pro(int pro_id,int user_id){cout<<"待开发……"<<endl;}       // 提交代码
 int Mark_user(int user_id,int dest_id){cout<<"待开发……"<<endl;}         // 关注用户
-int Create_group(int user_id){cout<<"待开发……"<<endl;}                  // 创建用户组
 int Apply_group(int user_id,int group_id){cout<<"待开发……"<<endl;}      // 申请加入用户组
-int Create_contest(int user_id){cout<<"待开发……"<<endl;}                // 创建比赛
 void Show_users(){cout<<"待开发……"<<endl;}                              // 查看所有用户
 void View_user(int uid,int user_id);                                    // 查看某个用户信息
 void Find_user(int user_id);                                            // 查找用户
@@ -99,44 +92,18 @@ int Sign_in()
     cout<<"请输入密码：";
     cin>>word;
     str=recv_data("get_user");
-    //cout<<str<<endl;
-    int n=0;
-    int len=nickname.size();
-    for(int i=0;i<str.size();i++) {
-        if(str[i]==nickname[0]) {
-            int sum=0,k=0;
-            for(int j=i;j<i+len;j++) {
-                if(str[j]==nickname[k]) {
-                	k++;
-                    sum++;
-                    if(sum==len) {
-                    	string s="";
-                        for(int k=i+len-1;k<str.size();k++) {
-                            if(str[k]==':') {
-                                n++;
-                            }
-                            if(n==6&&str[k+1]!=':') {
-                                s+=str[k+1];
-                            }
-                            if(n>6) {
-                                break;
-                            }
-                        }
-                        //cout<<s<<endl;
-                        if(s==word) {
-                            return 1;
-                        }
-                        else {
-                            return -1;
-                        }
-                    }
-                }
-                else {
-                    break;
-                }
-            }
+    vector<string> users = split(str,"&&&");
+    for(int i = 0 ; i < users.size() ; i ++)
+    {
+        vector<string> user = split(users[i],":::");
+        if(user[1] == nickname)
+        {
+            if(user[2] == word)
+                return stoi(user[0]);
+            else
+                return -1;
         }
     }
-    return 0;
+    return -1;
 }
 #endif            // magic code don't touch  !!!

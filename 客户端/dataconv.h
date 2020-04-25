@@ -19,7 +19,6 @@ vector<string>  split(string s,string pat)
             i += 2;
         }
     }
-    cout<<res.size()<<endl;
     return res;
 }
 
