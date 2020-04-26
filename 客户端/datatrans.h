@@ -38,13 +38,13 @@ int socket_init(int port,string addr)
         socket_close();
         return -1;
     }
-    cout<<"服务器连接成功"<<endl;
-
+    //cout<<"服务器连接成功"<<endl;
 }
 
 
 int send_data(string str)
 {
+    socket_init(12345,"39.97.242.228");
     int RetVal = send(ScoketClient, (char*)str.data(), str.size() ,0);
     if (RetVal == SOCKET_ERROR)
     {
@@ -52,15 +52,18 @@ int send_data(string str)
         socket_close();
         return -1;
     }
+    socket_close();
     return 1;
 }
 
 string recv_data(string opt)
 {
+    socket_init(12345,"39.97.242.228");
     send(ScoketClient, (char*)opt.data(), opt.size() ,0);
     char RECVBuff[10024];
     memset(RECVBuff,0,sizeof(RECVBuff));
     recv(ScoketClient,RECVBuff,10024, 0);
+    socket_close();
     return (RECVBuff);
 }
 
