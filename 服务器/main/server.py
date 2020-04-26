@@ -5,7 +5,7 @@ from contest import *
 
 
 class OjServer(threading.Thread):
-    def __init__(self,threadID,name,ss,CR,conn):
+    def __init__(self,threadID,name,ss,CR,conn,client):
         threading.Thread.__init__(self)
         self.threadID = threadID            # threadID   
         self.name = name                    # server name
@@ -13,12 +13,16 @@ class OjServer(threading.Thread):
         self.CR = CR                        # ContestRunner
         self.cursor = conn.cursor()         # mysql cursor
         self.conn = conn                    # mysql connection
+        self.client = client                # conneted client
 
     def run(self):
         try:
             while(True):
                 msg = bytes.decode(self.ss.recv(10024))
-                print("client: " + msg)
+                print(time.strftime("%H:%M:%S"),"client",self.client,":",msg)
+                if(msg == ""):
+                    self.ss.close()
+                    break
                 info = msg.split(':::')
                 if(info[0] == "create_user"):
                     self.create_user(info[1:])
@@ -26,6 +30,12 @@ class OjServer(threading.Thread):
                     self.create_group(info[1:])
                 elif(info[0] == "create_contest"):
                     self.create_contest(info[1:])
+                elif(info[0] == "update_user"):
+                    self.update_user(info[1:])
+                elif(info[0] == "update_group"):
+                    self.update_group(info[1:])
+                elif(info[0] == "update_contest"):
+                    self.update_contest(info[1:])
                 elif(info[0] == "get_user"):
                     self.get_info("User")
                 elif(info[0] == "get_group"):
@@ -34,6 +44,8 @@ class OjServer(threading.Thread):
                     self.get_info("contest")
                 elif(info[0] == "get_problem"):
                     self.get_info("problem")
+                elif(info[0] == "view_contests"):
+                    self.view_contests()
                 elif(info[0] == "IC_view_contest"):
                     self.IC_view_contest(info[1:])
                 elif(info[0] == "IC_view_problem"):
@@ -48,28 +60,42 @@ class OjServer(threading.Thread):
                     self.ss.close()
                     self.conn.close()
                     break
-                self.conn.commit()
         except:
             self.ss.close()
     
     def create_user(self,info):
         self.cursor.execute("insert into User values(0,'"+info[0]+"','"+info[1]+"','"+info[2]+"',' ',' ',' ',' ',' ',' ',' ',' ');")
-    
+        self.conn.commit()
+        self.send("succeeded")
+
     def create_group(self,info):
         self.cursor.execute("insert into groups values(0,"+info[0]+",'"+info[1]+"',' ',' ');")
+        self.conn.commit()
+        self.send("succeeded")
     
     def create_contest(self,info):
         self.cursor.execute("insert into contest values(0,"+info[0]+","+info[1]+","+info[2]+","+info[3]+",'"+info[4]+"','"+info[5]+"','pending',' ','"+info[6]+"',' ');")
-        
-    def group_add_user(self,info):
-        pass
+        self.conn.commit()
+        self.send("succeeded")
     
-    def group_add_contest(self,info):
-        pass
+    def update_user(self,info):
+        self.cursor.execute("update User set "+info[0]+"='"+info[2]+"' where user_id = "+info[1]+";");
+        self.conn.commit()
+
+    def update_group(self,info):
+        self.cursor.execute("update groups set "+info[0]+"='"+info[2]+"' where group_id = "+info[1]+";");
+        self.conn.commit()
+    
+    def update_contest(self,info):
+        self.cursor.execute("update contest set "+info[0]+"='"+info[2]+"' where contest_id = "+info[1]+";");
+        self.conn.commit()
     
     def submit_code(self,info):
         pass
-    
+
+    def view_contests(self):
+        self.send(self.CR.view_contests())
+
     def IC_submit_code(self,info):
         self.send(self.CR.submit_code(int(info[0]),int(info[1]),int(info[2]),info[3],info[4]))
 
@@ -97,7 +123,7 @@ class OjServer(threading.Thread):
         self.send(msg[:-3])
     
     def send(self,msg):
-        if(msg == ""):
+        if(msg == "" or msg == None):
             msg = "None"
         self.ss.send(msg.encode())
 
@@ -116,7 +142,7 @@ while(True):
         try:
             ss,addr = s.accept()
             print("client connected from: ",addr)
-            t_list.append(OjServer(t_num,"socket-"+str(t_num),ss,CR,pymysql.connect(host='localhost', port=3306, user='root', passwd='2015hero', db='onlinejudge', charset='utf8')))
+            t_list.append(OjServer(t_num,"socket-"+str(t_num),ss,CR,pymysql.connect(host='localhost', port=3306, user='root', passwd='2015hero', db='onlinejudge', charset='utf8'),addr))
             t_list[t_num].start()
             t_num += 1
         except:
