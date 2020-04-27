@@ -11,9 +11,16 @@
 用户组添加比赛 格式：  "group_add_contest:::contest1::contest2::contest3"
 创建比赛       格式：  "create_contest:::contest_title:::contest_owner:::contest_group:::contest_start_time:::contest_length:::contest_type:::prob1::prob2::prob3"
 提交代码       格式：  "submit_code:::user_id:::problem_id"
-比赛中提交代码 格式：  "submit_code_from_contest:::user_id:::problem_id:::contest_id:::code"
+比赛中提交代码 格式：  "IC_submit_code:::contest_id:::user_id:::problem_id:::code:::language"
+
+***新增如下格式***：
+
+修改用户信息       格式： "update_user:::field:::user_id:::new_value"
+修改用户组信息    格式： "update_group:::field:::group_id:::new_value"
+修改比赛信息       格式：  "update_contest:::field:::contest_id:::new_value"
 --------------------------------------------------------------------------------
 客户端接收数据格式：
+
 接收用户信息：  recv_data("get_user")
 接收用户组信息：  recv_data("get_group")
 接收题目信息：  recv_data("get_problem")
@@ -24,5 +31,3 @@
 发送用户信息   格式:   "user_id:::user_name:::user_nickname:::user_password:::solved_prob1::solved_prob2:::attemped_prob1::attemped_prob2:::favorite_pro1::favorite_pro2:::owned_group1::owned_group2:::entered_group1::entered_group2:::owned_contest1::owned_contest2:::entered_contest1::entered_contest2:::favorite_user1::favorite_user2&&&user_info2&&&user_info2&&&user_info3"
 发送用户组信息 格式:   "group_id:::group_owner:::group_name:::group_memb1::group_memb2:::group_contest1::group_contest2&&&group_info2&&&group_info3"
 发送题目信息   格式:   "pro_id:::pro_num:::pro_od:::pro_title:::pro_source:::pro_description&&&pro_info2&&&pro_info3"
-发送比赛信息   格式:   "contest_id:::contest_title:::contest_owner:::contest_group:::contest_start_time:::contest_length:::contest_type:::contest_status:::prob1::prob2::prob3&&&contest_info2&&&contest_info3"
-进行的比赛信息 格式：  "contest_id:::contest_title:::contest_owner:::contest_group:::contest_start_time:::contest_length:::contest_type:::contest_status:::ICP1::ICP2:::ICU1::ICU2:::ICS1::ICS2"
