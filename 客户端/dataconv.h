@@ -86,15 +86,30 @@ int match(string str,string pat)
         }
         else
             j = next[j];
-        /*
-        if(j == m)
-        {
-            res ++;
-            j = 0;
-        }
-        */
     }
     return j == m;
+}
+
+int match(vector<string> msgs,string msg)
+{
+    int n = msgs.size();
+    for(int i = 0 ; i < n ; i ++)
+    {
+        if(msgs[i] == msg)
+            return 1;
+    }
+    return 0;
+}
+
+int match(vector<int> msgs,int msg)
+{
+    int n = msgs.size();
+    for(int i = 0 ; i < n ; i ++)
+    {
+        if(msgs[i] == msg)
+            return 1;
+    }
+    return 0;
 }
 
 #endif            // magic code don't touch  !!!
