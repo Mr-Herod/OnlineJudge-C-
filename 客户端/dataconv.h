@@ -15,8 +15,8 @@ vector<string>  split(string s,string pat)
         if((i+ps-1 < sz && s.substr(i,ps) == pat ) || i == sz-1)
         {
             res.push_back(s.substr(pre,i-pre));
-            pre = i+3;
-            i += 2;
+            pre = i+ps;
+            i += ps-1;
         }
     }
     return res;
@@ -38,6 +38,63 @@ string itos(int x)      // int to string
     string res;
     ss>>res;
     return res;
+}
+
+string zip(vector<string> strs,string opt)
+{
+    int n = strs.size();
+    if(n == 0)  return "";
+    string res = strs[0];
+    for(int i = 1 ; i < n ; i ++)
+        res += opt+strs[i];
+    return res;
+}
+
+string zip(vector<int> strs,string opt)
+{
+    int n = strs.size();
+    if(n == 0)  return "";
+    string res = itos(strs[0]);
+    for(int i = 1 ; i < n ; i ++)
+        res += opt+itos(strs[i]);
+    return res;
+}
+
+int match(string str,string pat)
+{
+    int n = str.size(),m = pat.size();
+    int next[150];
+    next[0] = -1;
+    int i = 0,j = -1 ;
+    while(i < m)
+    {
+        if(j == - 1 || pat[i] == pat[j])
+        {
+            ++i;++j;
+            next[i] = j;
+        }
+        else
+            j = next[j];
+    }
+    i = 0;j = 0;
+    int res = 0;
+    while(i < n && j < m)
+    {
+        if(j == -1 || str[i] == pat[j])
+        {
+            i++; j++;
+        }
+        else
+            j = next[j];
+        /*
+        if(j == m)
+        {
+            res ++;
+            j = 0;
+        }
+        */
+    }
+    return j == m;
 }
 
 #endif            // magic code don't touch  !!!
