@@ -16,12 +16,12 @@ void Contest_page(int user_id);     // 比赛页面
 void User_page(int user_id);        // 用户页面
 void Gruop_page(int user_id);       // 用户组页面
 
+
+
 int main()
 {
     //test(); return 0;
-    //socket_init(12345,"39.97.242.228");
     Index_page();
-    //socket_close();
     return 0;
 }
 
@@ -85,7 +85,7 @@ void Contest_page(int user_id)
         cout<<"1.我的比赛  2.进入比赛  3.搜索比赛  4.创建比赛  5.返回"<<endl<<endl;
         Show_contests("all",user_id);
         cin>>opt;
-        if(opt == "1") Show_contests("own",user_id);
+        if(opt == "1") My_contests(user_id);
         if(opt == "2")
         {
             int contest_id;
