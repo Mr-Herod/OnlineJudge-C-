@@ -107,15 +107,20 @@ void Probelm_page(int user_id)
     {
         system("CLS");
         cout<<"牛人自制在线评测系统 ver-1.0 (题目页) "<<endl;
-        cout<<"1.通过的题目  2.尝试的题目 3.所有题目  4.查看题目  5.搜索题目  6.返回"<<endl;
+        cout<<"1.通过的题目  2.尝试的题目 3.查看题目  4.搜索题目  5.返回"<<endl;
         Show_problems("all",user_id);
         cin>>opt;
-        if(opt == "1") Show_problems("solved",user_id);
-        if(opt == "2") Show_problems("attempted",user_id);
-        if(opt == "3") Show_problems("all",user_id);
-        if(opt == "4") View_pro(1,user_id);
-        if(opt == "5") Find_pro(user_id);
-        if(opt == "6") return;
+        if(opt == "1") Solved_problem(user_id);
+        if(opt == "2") Attempted_problem(user_id);
+        if(opt == "3")
+        {
+            int pro_id;
+            cout<<"请输入题目ID：";
+            cin>>pro_id;
+            View_pro(pro_id,user_id);
+        }
+        if(opt == "4") Find_pro(user_id);
+        if(opt == "5") return;
     }
 }
 
