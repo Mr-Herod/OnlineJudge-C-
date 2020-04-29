@@ -22,7 +22,7 @@ vector<string>  split(string s,string pat)
     return res;
 }
 
-int stoi(string s)      // string to int
+int Stoi(string s)      // string to int
 {
     stringstream ss;
     ss<<s;
