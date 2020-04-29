@@ -2,82 +2,225 @@
 #define _USER_H
 #include "datatrans.h"
 #include "dataconv.h"
+#include "group.h"
 #include <bits/stdc++.h>
 using namespace std;
 struct User{
-    int    user_id;                 // ÓÃ»§ID
-    string user_name;               // ÓÃ»§Ãû
-    string user_password;           // ÓÃ»§ÃÜÂë
-    string user_nickname;           // ÓÃ»§êÇ³Æ
-    vector<int> solved_problem;     // ½â¾öµÄÌâÄ¿
-    vector<int> attemped_problem;   // ³¢ÊÔµ«Î´½â¾öµÄÌâÄ¿
-    vector<int> favorite_problem;   // ÊÕ²ØµÄÌâÄ¿
-    vector<int> owned_group;        // ´´½¨µÄÓÃ»§×é
-    vector<int> entered_group;      // ¼ÓÈëµÄÓÃ»§×é
-    vector<int> owned_contest;      // ´´½¨µÄ±ÈÈü
-    vector<int> entered_contest;    // ²Î¼ÓµÄ±ÈÈü£¨ÓĞÌá½»¼ÇÂ¼¾ÍËã²Î¼Ó£©
-    vector<int> favorite_user;      // ¹Ø×¢µÄÓÃ»§
+    int    user_id;                 // ç”¨æˆ·ID
+    string user_name;               // ç”¨æˆ·å
+    string user_password;           // ç”¨æˆ·å¯†ç 
+    string user_nickname;           // ç”¨æˆ·æ˜µç§°
+    vector<int> solved_problem;     // è§£å†³çš„é¢˜ç›®
+    vector<int> attemped_problem;   // å°è¯•ä½†æœªè§£å†³çš„é¢˜ç›®
+    vector<int> favorite_problem;   // æ”¶è—çš„é¢˜ç›®
+    vector<int> owned_group;        // åˆ›å»ºçš„ç”¨æˆ·ç»„
+    vector<int> entered_group;      // åŠ å…¥çš„ç”¨æˆ·ç»„
+    vector<int> owned_contest;      // åˆ›å»ºçš„æ¯”èµ›
+    vector<int> entered_contest;    // å‚åŠ çš„æ¯”èµ›ï¼ˆæœ‰æäº¤è®°å½•å°±ç®—å‚åŠ ï¼‰
+    vector<int> favorite_user;      // å…³æ³¨çš„ç”¨æˆ·
 };
+// Userç¯‡
+int Sign_up();                                  // ç”¨æˆ·æ³¨å†Œ
+int Sign_in();                                  // ç”¨æˆ·ç™»å½•
+int Change_info(int user_id);                   // ä¿®æ”¹ä¸ªäººä¿¡æ¯
+int Mark_user(int user_id,int dest_id);         // å…³æ³¨ç”¨æˆ·
+int Apply_group(int user_id,int group_id);      // ç”³è¯·åŠ å…¥ç”¨æˆ·ç»„
+void user_show_info(int user_id);               // æŸ¥çœ‹ä¸ªäººä¿¡æ¯
+void Show_users();                              // æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·
+void View_user(int uid,int user_id);            // æŸ¥çœ‹æŸä¸ªç”¨æˆ·ä¿¡æ¯
+void Find_user(int user_id);                    // æŸ¥æ‰¾ç”¨æˆ·
 
 
-// UserÆª
-int Sign_up();                                  // ÓÃ»§×¢²á
-int Sign_in();                                  // ÓÃ»§µÇÂ¼
-int Sign_out();                                 // ÓÃ»§ÍË³ö
-int Change_info(int user_id);                   // ĞŞ¸Ä¸öÈËĞÅÏ¢
-int Mark_user(int user_id,int dest_id);         // ¹Ø×¢ÓÃ»§
-int Apply_group(int user_id,int group_id);      // ÉêÇë¼ÓÈëÓÃ»§×é
-void user_show_info(int user_id);               // ²é¿´¸öÈËĞÅÏ¢
-void Show_users();                              // ²é¿´ËùÓĞÓÃ»§
-
-
-
-// UserÆª
-int  Sign_out(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}
-int  Change_info(int user_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                   // ĞŞ¸Ä¸öÈËĞÅÏ¢
-int  Mark_user(int user_id,int dest_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}         // ¹Ø×¢ÓÃ»§
-int  Apply_group(int user_id,int group_id){cout<<"´ı¿ª·¢¡­¡­"<<endl;}      // ÉêÇë¼ÓÈëÓÃ»§×é
-void Show_users(){cout<<"´ı¿ª·¢¡­¡­"<<endl;}                              // ²é¿´ËùÓĞÓÃ»§
-void View_user(int uid,int user_id);                                    // ²é¿´Ä³¸öÓÃ»§ĞÅÏ¢
-void Find_user(int user_id);                                            // ²éÕÒÓÃ»§
-
+// Userç¯‡
+int Change_info(int user_id){  // ä¿®æ”¹ä¸ªäººä¿¡æ¯
+    string str,str1,str2;
+    string nickname,password;
+    str=recv_data("get_user");
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(res2[0]==itos(user_id)) {
+            int opt;
+            cout<<"1.ä¿®æ”¹æ˜µç§°\t2.ä¿®æ”¹å¯†ç "<<endl;
+            cin>>opt;
+            if(opt==1) {
+                cout<<"è¯·è¾“å…¥æ–°æ˜µç§°"<<endl;
+                cin>>nickname;
+                str1="update_user:::user_nickname:::"+itos(user_id)+":::"+nickname;
+                recv_data(str1);
+                return 1;
+            }
+            if(opt==2) {
+                cout<<"è¯·è¾“å…¥æ–°å¯†ç "<<endl;
+                cin>>password;
+                str2="update_user:::user_pwd:::"+itos(user_id)+":::"+password;
+                recv_data(str2);
+                //cout<<str<<endl;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+int Mark_user(int user_id,int dest_id){ // å…³æ³¨ç”¨æˆ·
+    string str,str1;
+    str=recv_data("get_user");
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(res2[0]==itos(user_id)) {
+            res2[11]+=itos(dest_id);
+            res2[11]+=":: ";
+            str1="update_user:::favorite_user:::"+itos(user_id)+":::"+res2[11];
+            recv_data(str1);
+            //cout<<str<<endl;
+            return 1;
+        }
+    }
+    return 0;
+}
+int Apply_group(int user_id,int group_id){// ç”³è¯·åŠ å…¥ç”¨æˆ·ç»„
+    string str;
+    str=recv_data("get_user");
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        vector<string> res3=split(res2[7],"::");
+        for(int k=0;k<res3.size();k++) {
+            if(res3[k]==itos(group_id)) {
+                Add_member(Stoi(res2[0]),group_id,user_id);
+            }
+        }
+    }
+}
+void Show_users(){// æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·
+    string str;
+    str=recv_data("get_user");
+    vector<string> res1=split(str,"&&&");
+    cout<<"IDå·\t\tç”¨æˆ·å\t\tæ˜µç§°\t\tå·²è§£å†³çš„é¢˜ç›®æ•°é‡\t\tå°è¯•è§£å†³çš„é¢˜ç›®æ•°é‡"<<endl;
+    for(int i=0;i<res1.size();i++){
+        vector<string> res2=split(res1[i],":::");
+        for(int j=0;j<3;j++) {
+            cout<<res2[j]<<"\t\t";
+        }
+        vector<string> res3=split(res2[4],"::");
+        vector<string> res4=split(res2[5],"::");
+        cout<<"\t"<<res3.size()<<"\t\t\t\t"<<res4.size();
+        cout<<endl;
+    }
+}
 void user_show_info(int user_id)
 {
-    while(true){
-        cout<<"ÄãÊÇ×î°ôµÄcoder£¬¼ÓÓÍ"<<endl;
-        cout<<"1.ĞŞ¸ÄĞÅÏ¢   2.ÍË³ö"<<endl;
-        string opt;
-        cin>>opt;
-        if(opt == "1") Change_info(user_id);
-        if(opt == "2") return;
-
+    string str;
+    str=recv_data("get_user");
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(res2[0]==itos(user_id)) {
+            cout<<"ç”¨æˆ·å:"<<res2[1]<<endl;
+            cout<<"æ˜µç§°:"<<res2[2]<<endl;
+            cout<<"å·²è§£å†³çš„é¢˜ç›®:"<<res2[4]<<endl;
+            cout<<"å°è¯•è§£å†³çš„é¢˜ç›®:"<<res2[5]<<endl;
+            cout<<"æ”¶è—çš„é¢˜ç›®:"<<res2[6]<<endl;
+            cout<<"åˆ›å»ºçš„ç”¨æˆ·ç»„:"<<res2[7]<<endl;
+            cout<<"åŠ å…¥çš„ç”¨æˆ·ç»„:"<<res2[8]<<endl;
+            cout<<"åˆ›å»ºçš„æ¯”èµ›:"<<res2[9]<<endl;
+            cout<<"åŠ å…¥çš„æ¯”èµ›:"<<res2[10]<<endl;
+            cout<<"å…³æ³¨çš„ç”¨æˆ·:"<<res2[11]<<endl;
+            cout<<"ä½ æ˜¯æœ€æ£’çš„coderï¼ŒåŠ æ²¹"<<endl;
+            cout<<"1.ä¿®æ”¹ä¿¡æ¯   2.é€€å‡º"<<endl;
+            string opt;
+            cin>>opt;
+            if(opt == "1") {
+                if(Change_info(user_id)) {
+                    cout<<"ä¿®æ”¹æˆåŠŸ"<<endl;
+                }
+                else {
+                    cout<<"ä¿®æ”¹å¤±è´¥"<<endl;
+                }
+            }
+            if(opt == "2") return;
+        }
     }
 }
 
 void View_user(int uid,int user_id)
 {
-    cout<<"´ı¿ª·¢..."<<endl;
+    string str;
+    str=recv_data("get_user");
+    //cout<<str<<endl;
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(res2[0]==itos(uid)) {
+            cout<<"ç”¨æˆ·å:"<<res2[1]<<endl;
+            cout<<"æ˜µç§°:"<<res2[2]<<endl;
+            cout<<"å·²è§£å†³çš„é¢˜ç›®:"<<res2[4]<<endl;
+            cout<<"å°è¯•è§£å†³çš„é¢˜ç›®:"<<res2[5]<<endl;
+            cout<<"æ”¶è—çš„é¢˜ç›®:"<<res2[6]<<endl;
+            cout<<"åˆ›å»ºçš„ç”¨æˆ·ç»„:"<<res2[7]<<endl;
+            cout<<"åŠ å…¥çš„ç”¨æˆ·ç»„:"<<res2[8]<<endl;
+            cout<<"åˆ›å»ºçš„æ¯”èµ›:"<<res2[9]<<endl;
+            cout<<"åŠ å…¥çš„æ¯”èµ›:"<<res2[10]<<endl;
+            cout<<"å…³æ³¨çš„ç”¨æˆ·:"<<res2[11]<<endl;
+            cout<<"ä½ æ˜¯æœ€æ£’çš„coderï¼ŒåŠ æ²¹"<<endl;
+            cout<<"1.å…³æ³¨   2.é€€å‡º"<<endl;
+            string opt;
+            cin>>opt;
+            if(opt == "1") {
+                if(Mark_user(user_id,uid)) {
+                    cout<<"å…³æ³¨æˆåŠŸ"<<endl;
+                }
+                else {
+                    cout<<"å…³æ³¨å¤±è´¥"<<endl;
+                }
+            }
+            if(opt == "2") return;
+        }
+    }
 }
 
-void Find_user(int user_id)
+void Find_user(string nickname)
 {
-    cout<<"´ı¿ª·¢...."<<endl;
+    string str;
+    str=recv_data("get_user");
+    cout<<"IDå·\t\tç”¨æˆ·å\t\tæ˜µç§°\t\tå·²è§£å†³çš„é¢˜ç›®æ•°é‡\t\tå°è¯•è§£å†³çš„é¢˜ç›®æ•°é‡"<<endl;
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(match(res2[1],nickname)) {
+            for(int j=0;j<3;j++) {
+                cout<<res2[j]<<"\t\t";
+            }
+            vector<string> res3=split(res2[4],"::");
+            vector<string> res4=split(res2[5],"::");
+            cout<<"\t"<<res3.size()-1<<"\t\t\t\t"<<res4.size()-1<<endl;
+        }
+    }
 }
 
 int Sign_up()
 {
     string username,nickname,word;
-    cout<<"ÇëÊäÈëÓÃ»§Ãû£º";
+    cout<<"è¯·è¾“å…¥ç”¨æˆ·å(ä¸å¯è¶…è¿‡7ä¸ªå­—ç¬¦)ï¼š";
     cin>>username;
-    cout<<"ÇëÊäÈëêÇ³Æ£º";
+    if(username.size()>7) {
+        cout<<"è¯·é‡æ–°è¾“å…¥ç”¨æˆ·å:";
+        cin>>username;
+    }
+    cout<<"è¯·è¾“å…¥æ˜µç§°(ä¸å¯è¶…è¿‡7ä¸ªå­—ç¬¦)ï¼š";
     cin>>nickname;
-    cout<<"ÇëÊäÈëÃÜÂë(²»¿Éº¬ÓĞ:&×Ö·û£©£º";
+    if(nickname.size()>7) {
+        cout<<"è¯·é‡æ–°è¾“å…¥æ˜µç§°:";
+        cin>>nickname;
+    }
+    cout<<"è¯·è¾“å…¥å¯†ç (ä¸å¯å«æœ‰:&å­—ç¬¦ï¼‰ï¼š";
     cin>>word;
     string str;
     str="create_user:::"+username+":::"+nickname+":::"+word;
     recv_data(str);
-    cout<<"×¢²á³É¹¦£¡"<<endl;
-    cout<<"°´ÈÎÒâ¼ü·µ»Ø"<<endl;
+    cout<<"æ³¨å†ŒæˆåŠŸï¼"<<endl;
+    cout<<"æŒ‰ä»»æ„é”®è¿”å›"<<endl;
     getchar();
     getchar();
     return 1;
@@ -86,20 +229,21 @@ int Sign_up()
 
 int Sign_in()
 {
-    string nickname,word,str;
-    cout<<"ÇëÊäÈëêÇ³Æ£º";
-    cin>>nickname;
-    cout<<"ÇëÊäÈëÃÜÂë£º";
+    string username,word,str;
+    cout<<"è¯·è¾“å…¥ç”¨æˆ·åï¼š";
+    cin>>username;
+    cout<<"è¯·è¾“å…¥å¯†ç ï¼š";
     cin>>word;
     str=recv_data("get_user");
+    //cout<<str<<endl;
     vector<string> users = split(str,"&&&");
     for(int i = 0 ; i < users.size() ; i ++)
     {
         vector<string> user = split(users[i],":::");
-        if(user[1] == nickname)
+        if(user[1] == username)
         {
-            if(user[2] == word)
-                return stoi(user[0]);
+            if(user[3] == word)
+                return Stoi(user[0]);
             else
                 return -1;
         }
