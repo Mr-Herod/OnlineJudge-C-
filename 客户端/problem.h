@@ -9,26 +9,53 @@ using namespace std;
 int  Find_pro(int user_id);                                 // 查找题目
 int  View_pro(int pro_id,int user_id);                      // 查看题目详情
 void Show_problems(string type,int user_id);                // 查看所有题目
-void Submit_code(int pro_id,int user_id,string code);        // 提交代码
+void Submit_code(int pro_id,int user_id,string code);       // 提交代码
 int  Solved_problem(int user_id);                           // 查看通过的题目
 int  Attempted_problem(int user_id);                        // 查看尝试过的题目
 
 
-void Submit_code(int pro_id,int user_id,string code)
+void Submit_code(int pro_id,int user_id,string code)        // 提交代码
 {
     string result = recv_data("submit_code:::"+itos(pro_id)+":::"+itos(user_id)+":::"+code);
     cout<<"代码评测结果："<<result<<endl;
     cout<<"按任意键返回..."<<endl;
     getchar();getchar();
-}         // 提交代码
+}
 
-// Problem篇
-int Find_pro(int user_id)
+int Find_pro(int user_id)                                   // 查找题目
 {
-    cout<<"待开发……"<<endl;
-}                                 // 查找题目
+    string pro_title;
+    cout<<"请输入题目标题："<<endl;
+    cin>>pro_title;
+    string opt;
+    while(true)
+    {
+        system("CLS");
+        cout<<"牛人自制在线评测系统 ver-1.0 (题目页) "<<endl;
+        cout<<"1.查看题目  2.返回"<<endl;
+        vector<string> msgs = split(recv_data("get_problem"),"&&&");
+        cout<<endl<<setw(5)<<"id"<<setw(10)<<"oj"<<setw(20)<<"title"<<setw(20)<<"source"<<endl<<endl;
+        for(int i = 0 ; i < msgs.size() ; i ++)
+        {
+            vector<string>msg = split(msgs[i],":::");
+            if(msg[0] == "None") {cout<<"None"<<endl;break;}
+            if(!match(msg[3],pro_title)) continue;
+            cout<<setw(5)<<msg[0]<<setw(10)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<endl;
+        }
+        cin>>opt;
+        if(opt == "1")
+        {
+            int pro_id;
+            cout<<"请输入题目ID：";
+            cin>>pro_id;
+            View_pro(pro_id,user_id);
+        }
+        if(opt == "2")
+            return 0;
+    }
+}
 
-int View_pro(int pro_id,int user_id)
+int View_pro(int pro_id,int user_id)                       // 查看题目详情
 {
     string opt;
     while(true)
@@ -55,7 +82,7 @@ int View_pro(int pro_id,int user_id)
         if(opt == "2")
             return 0;
     }
-}                       // 查看题目详情
+}
 
 
 

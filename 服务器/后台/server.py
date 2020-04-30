@@ -2,6 +2,7 @@ import sys
 sys.path.append("/root/Onlinejudge-c/")
 import socket,threading,time,pymysql
 from contest import *
+from problem import *
 
 
 class OjServer(threading.Thread):
@@ -44,6 +45,8 @@ class OjServer(threading.Thread):
                     self.get_info("contest")
                 elif(info[0] == "get_problem"):
                     self.get_info("problem")
+                elif(info[0] == "submit_code"):
+                    self.submit_code(info[1:])
                 elif(info[0] == "view_contests"):
                     self.view_contests()
                 elif(info[0] == "IC_view_contest"):
@@ -60,6 +63,11 @@ class OjServer(threading.Thread):
                     self.ss.close()
                     self.conn.close()
                     break
+                else:
+                    self.ss.close()
+                    self.conn.close()
+                    break
+
         except:
             self.ss.close()
     
@@ -81,17 +89,20 @@ class OjServer(threading.Thread):
     def update_user(self,info):
         self.cursor.execute("update User set "+info[0]+"='"+info[2]+"' where user_id = "+info[1]+";");
         self.conn.commit()
+        self.send("succeeded")
 
     def update_group(self,info):
         self.cursor.execute("update groups set "+info[0]+"='"+info[2]+"' where group_id = "+info[1]+";");
         self.conn.commit()
+        self.send("succeeded")
     
     def update_contest(self,info):
         self.cursor.execute("update contest set "+info[0]+"='"+info[2]+"' where contest_id = "+info[1]+";");
         self.conn.commit()
+        self.send("succeeded")
     
     def submit_code(self,info):
-        pass
+        self.send(Problem.submit_code(int(info[0]),int(info[1]),info[2]))
 
     def view_contests(self):
         self.send(self.CR.view_contests())
@@ -114,6 +125,7 @@ class OjServer(threading.Thread):
     def get_info(self,table_name):
         self.cursor.execute("select * from "+table_name+";")
         rs = self.cursor.fetchall()
+        self.conn.commit()
         # print(rs)
         msg = ""
         for r in rs:
