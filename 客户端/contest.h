@@ -39,7 +39,7 @@ int Find_contest(int user_id)               // ≤È’“±»»¸
             cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<endl;
         }
         cout<<endl;
-        cin>>opt;
+        opt = getch();
         if(opt == "2") return 0;
         if(opt == "1")
         {
@@ -56,13 +56,13 @@ void Show_contests(string type,int user_id)                                     
     vector<string> msgs = split(recv_data("view_contests"),"&&&");
     vector<string> msg;
     cout<<endl;
-    cout<<setw(5)<<"id"<<setw(20)<<"title"<<setw(20)<<"start_time"<<setw(20)<<"length"<<endl<<endl;
+    cout<<setw(5)<<"id"<<setw(20)<<"title"<<setw(20)<<"start_time"<<setw(20)<<"length"<<setw(20)<<"status"<<endl<<endl;
     for(int i = 0 ; i < msgs.size() ; i  ++)
     {
         msg = split(msgs[i],":::");
         if(msg[0] == "None") {cout<<"None"<<endl;break;}
         if(type == "own" && msg[4] != itos(user_id)) continue;
-        cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<endl;
+        cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<endl;
     }
     cout<<endl;
 }
@@ -76,7 +76,7 @@ void My_contests(int user_id)                                         // ≤Èø¥±»»
         cout<<"≈£»À◊‘÷∆‘⁄œﬂ∆¿≤‚œµÕ≥ ver-1.0 (Œ“µƒ±»»¸) "<<endl;
         cout<<"1.Ω¯»Î±»»¸   2.∑µªÿ"<<endl<<endl;
         Show_contests("own",user_id);
-        cin>>opt;
+        opt = getch();
         if(opt == "1")
         {
             int contest_id;
@@ -100,7 +100,7 @@ int IC_view_contest(int contest_id,int user_id)                                 
         {
             cout<<"This contest is not running."<<endl;
             cout<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-            getchar();getchar();
+            getch();getch();
             return 1;
         }
         cout<<"1.≤Èø¥Ã‚ƒø   2.≤Èø¥≈≈√˚  3.≤Èø¥ µ ±≤‚∆¿    4.∑µªÿ"<<endl<<endl;
@@ -114,7 +114,7 @@ int IC_view_contest(int contest_id,int user_id)                                 
             cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<endl;
         }
         cout<<endl;
-        cin>>opt;
+        opt = getch();
         if(opt == "1")
         {
             int ICP_id;
@@ -138,8 +138,15 @@ void IC_view_problem(int contest_id,int ICP_id,int user_id)
         system("CLS");
         string opt;
         cout<<"≈£»À◊‘÷∆‘⁄œﬂ∆¿≤‚œµÕ≥ ver-1.0 (Ã‚ƒø“≥) "<<endl;
-        cout<<"1.Ã·Ωª¥˙¬Î   2.∑µªÿ"<<endl<<endl;
         vector<string> msgs = split(recv_data("IC_view_problem:::"+itos(contest_id)+":::"+itos(ICP_id)),"&&&");
+        if(msgs[0] == "This contest is not running.")
+        {
+            cout<<endl<<"This contest is not running."<<endl<<endl;
+            cout<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
+            getch();getch();
+            break;
+        }
+        cout<<"1.Ã·Ωª¥˙¬Î   2.∑µªÿ"<<endl<<endl;
         vector<string> msg;
         for(int i = 1 ; i < msgs.size() ; i  ++)
         {
@@ -149,7 +156,7 @@ void IC_view_problem(int contest_id,int ICP_id,int user_id)
             cout<<endl;
         }
         cout<<endl;
-        cin>>opt;
+        opt = getch();
         if(opt == "2")
             break;
         else
@@ -163,8 +170,15 @@ void IC_submit_code(int contest_id,int ICP_id,int user_id)
     cout<<"«Î ‰»Î¥˙¬Î£∫"<<endl;
     cin>>code;
     system("CLS");
-    vector<string> msgs = split(recv_data("IC_submit_code:::"+itos(contest_id)+":::"+itos(user_id)+":::"+itos(ICP_id)+":::"+code+":::"+"python"),"&&&");
+    string msgg = recv_data("IC_submit_code:::"+itos(contest_id)+":::"+itos(user_id)+":::"+itos(ICP_id)+":::"+code+":::"+"python");
+    vector<string> msgs = split(msgg,"&&&");
     vector<string> msg;
+    if(msgg == "This contest is not running.")
+    {
+        cout<<endl<<"This contest is not running."<<endl;
+        cout<<endl<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
+        getch();getch();
+    }
     cout<<"≈£»À◊‘÷∆‘⁄œﬂ∆¿≤‚œµÕ≥ ver-1.0 (∆¿≤‚Ω·π˚) "<<endl<<endl;
     cout<<setw(5)<<"No."<<setw(20)<<"problem"<<setw(20)<<"user"<<setw(20)<<"time"<<setw(20)<<"language"<<setw(20)<<"result"<<endl<<endl;
     for(int i = 0 ; i < msgs.size() ; i  ++)
@@ -173,7 +187,7 @@ void IC_submit_code(int contest_id,int ICP_id,int user_id)
         cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<setw(20)<<msg[5]<<endl;
     }
     cout<<endl<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-    getchar();getchar();
+    getch();getch();
 }
 
 void IC_view_rank(int contest_id)
@@ -187,11 +201,11 @@ void IC_view_rank(int contest_id)
     {
         msg = split(msgs[i],":::");
         if(msg[0] == "None") {cout<<"None"<<endl;break;}
-        cout<<setw(6)<<msg[0]<<setw(20)<<msg[1]<<setw(10)<<msg[2]<<endl;
+        cout<<setw(6)<<msg[0]<<setw(15)<<msg[1]<<setw(15)<<msg[2]<<setw(15)<<msg[3]<<endl;
     }
     cout<<endl;
     cout<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-    getchar();getchar();
+    getch();getch();
 }
 
 
@@ -209,7 +223,7 @@ void IC_view_status(int contest_id)
         cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<setw(20)<<msg[5]<<endl;
     }
     cout<<endl<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-    getchar();getchar();
+    getch();getch();
 }
 
 
@@ -217,7 +231,7 @@ void IC_view_status(int contest_id)
 int Create_contest(int user_id)                               // ¥¥Ω®±»»¸
 {
     system("CLS");
-    cout<<"≈£»À◊‘÷∆‘⁄œﬂ∆¿≤‚œµÕ≥ ver-1.0 (¥¥Ω®±»»¸)"<<endl;
+    cout<<"≈£»À◊‘÷∆‘⁄œﬂ∆¿≤‚œµÕ≥ ver-1.0 (¥¥Ω®±»»¸)"<<endl<<endl;
     string contest_title;
     string contest_start_time;
     int contest_length;
@@ -236,7 +250,7 @@ int Create_contest(int user_id)                               // ¥¥Ω®±»»¸
     //cout<<msg<<endl;
     recv_data(msg);
     cout<<"±»»¸¥¥Ω®≥…π¶£°∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-    getchar();getchar();
+    getch();getch();
 }
 
 time_t convert_str_to_tm(char * str_time)
