@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <conio.h>
 #include "user.h"
 #include "group.h"
 #include "contest.h"
@@ -28,13 +29,14 @@ int main()
 // Main flow
 void Index_page()
 {
+    system("color 2F");
     string opt;
     while(true)
     {
         system("CLS");
         cout<<"牛人自制在线评测系统 ver-1.0 "<<endl;
         cout<<"1.注册    2.登录   3.退出"<<endl;
-        cin>>opt;
+        opt = getch();
         if(opt == "1")  Sign_up();
         if(opt == "2")
         {
@@ -64,7 +66,7 @@ void Home_page(int user_id)
         system("CLS");
         cout<<"牛人自制在线评测系统 ver-1.0 (个人信息页) "<<endl;
         cout<<"1.查看个人信息  2.查看题目  3.查看比赛  4.查看所有用户  5.查看组  6.退出"<<endl;
-        cin>>opt;
+        opt = getch();
         if(opt == "1")  user_show_info(user_id);
         if(opt == "2")  Probelm_page(user_id);
         if(opt == "3")  Contest_page(user_id);
@@ -84,7 +86,7 @@ void Contest_page(int user_id)
         cout<<"牛人自制在线评测系统 ver-1.0 (比赛页) "<<endl;
         cout<<"1.我的比赛  2.进入比赛  3.搜索比赛  4.创建比赛  5.返回"<<endl<<endl;
         Show_contests("all",user_id);
-        cin>>opt;
+        opt = getch();
         if(opt == "1") My_contests(user_id);
         if(opt == "2")
         {
@@ -109,7 +111,7 @@ void Probelm_page(int user_id)
         cout<<"牛人自制在线评测系统 ver-1.0 (题目页) "<<endl;
         cout<<"1.通过的题目  2.尝试的题目 3.查看题目  4.搜索题目  5.返回"<<endl;
         Show_problems("all",user_id);
-        cin>>opt;
+        opt = getch();
         if(opt == "1") Solved_problem(user_id);
         if(opt == "2") Attempted_problem(user_id);
         if(opt == "3")
@@ -133,7 +135,7 @@ void User_page(int user_id)
         //system("CLS");
         cout<<"牛人自制在线评测系统 ver-1.0 (用户页) "<<endl;
         cout<<"1.查看用户   2.搜索用户   3.返回"<<endl;
-        cin>>opt;
+        opt = getch();
         if(opt == "1")
         {
             int uid;
@@ -160,7 +162,7 @@ void Gruop_page(int user_id)
         //system("CLS");
         cout<<"牛人自制在线评测系统 ver-1.0 (用户组页) "<<endl;
         cout<<"1.查看自己用户组    2.查看所有用户组   3.查找用户组     4.创建用户组 5.返回"<<endl;
-        cin>>opt;
+        opt = getch();
         if(opt == "1") Show_groups("own",user_id);
         if(opt == "2") Show_groups("all",user_id);
         if(opt == "3") Find_group(user_id);
