@@ -19,7 +19,7 @@ void Submit_code(int pro_id,int user_id,string code)        // 提交代码
     string result = recv_data("submit_code:::"+itos(pro_id)+":::"+itos(user_id)+":::"+code);
     cout<<"代码评测结果："<<result<<endl;
     cout<<"按任意键返回..."<<endl;
-    getchar();getchar();
+    getch();
 }
 
 int Find_pro(int user_id)                                   // 查找题目
