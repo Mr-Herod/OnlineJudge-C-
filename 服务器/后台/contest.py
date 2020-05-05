@@ -70,6 +70,7 @@ class Contest(threading.Thread):
         for ICP_id,pro_id in enumerate(contest_problem.split("::")):
             self.problem[ICP_id+1] = InContestProblem(ICP_id+1,pro_id,conn.cursor())
         self.conn.commit()
+        self.record()
     
     def run(self):
         self.contest_status = "running"
@@ -80,7 +81,6 @@ class Contest(threading.Thread):
     
     def exit(self):
         self.contest_status = "ended"
-        self.conn.commit()
         self.cursor.execute("update contest set contest_status = 'ended' where contest_id="+str(self.contest_id)+";")
         self.conn.commit()
         self.record()
@@ -88,6 +88,7 @@ class Contest(threading.Thread):
         print("contest:"+self.contest_title+" is ended now! "+time.strftime("%d %H:%M:%S"))
     
     def submit_code(self,uid,ICP_id,code,lang):
+        #print("-------debug0-------")
         if(uid not in self.participent.keys()):
             self.participent[uid] = InContestUser(len(self.participent.keys()),uid,self.conn.cursor())
         result = Judger.judge(self.problem[ICP_id].pro_id,code)
@@ -104,30 +105,37 @@ class Contest(threading.Thread):
             else:
                 self.participent[uid].penalty += 1200
             self.problem[ICP_id].submit += 1
+        #print("-------debug1-------")
         self.status.append(InContestStatus(len(self.status),ICP_id,self.participent[uid].ICU_id,result,lang,self.problem[ICP_id].title,self.participent[uid].user_name))
-        self.record()
+        #print("-------debug2-------")
+        try:
+            self.record()
+        except:
+            raise
+        #print("-------debug3-------")
+        #print(self.status[-1].toString())
         return self.status[-1].toString()
     
     def record(self):
-        self.cursor.execute("update contest set contest_rank = '"+self.show_rank()+"',contest_judge = '"+self.show_status()+"',contest_summary = '"+self.summary()+"';")
+        self.cursor.execute("update contest set contest_rank = '"+self.show_rank()+"',contest_judge = '"+self.show_status()+"',contest_summary = '"+self.summary()+"',contest_string = '"+self.toString()+"' where contest_id = "+str(self.contest_id)+";")
         self.conn.commit()
 
     def toString(self):
-        msg =":::".join([self.contest_title,time.strftime("%m-%d %H:%M",time.gmtime(self.start_time)),time.strftime("%d d %H h",time.gmtime(self.contest_length)),self.contest_status])+"&&&&&&"+\
-             "&&&".join([x[1].toString() for x in self.problem.items()])
+        msg =":::".join([self.contest_title,time.strftime("%m-%d %H:%M",time.gmtime(self.start_time+28800)),str(int(self.contest_length/(60*60*24)))+" d "+str(int((self.contest_length%(24*60*60))/3600))+" h "+str(int((self.contest_length%3600)/60))+" m",self.contest_status])+"&&&&&&"+"&&&".join([x[1].toString() for x in self.problem.items()])
         return msg
 
     def summary(self):
-        msg = ":::".join([str(self.contest_id),self.contest_title,time.strftime("%m-%d %H:%M",time.gmtime(self.start_time)),time.strftime("%d d %H h",time.gmtime(self.contest_length)),self.contest_status,str(self.contest_owner),str(self.contest_group)])
+        msg = ":::".join([str(self.contest_id),self.contest_title,time.strftime("%m-%d %H:%M",time.gmtime(self.start_time+28800)),str(int(self.contest_length/(60*60*24)))+" d "+str(int((self.contest_length%(24*60*60))/3600))+" h "+str(int((self.contest_length%3600)/60))+" m",self.contest_status,str(self.contest_owner),str(self.contest_group)])
         return msg
 
     def show_rank(self):         
         res = []
         for rank,user in enumerate(sorted(self.participent.items(),key = lambda x :(-(x[1].score),x[1].penalty))):
             res.append(":::".join([str(rank),user[1].user_name,str(user[1].score),str(user[1].penalty)]))
-        print("&&&".join(res))
-        return "&&&".join(res)
-
+        msg = "&&&".join(res)
+        #print("---debug----",msg)
+        return msg
+    
     def show_status(self):
         msg = "&&&".join([status.toString() for status in self.status[::-1]])
         return msg
@@ -162,6 +170,8 @@ class ContestRunner(threading.Thread):
                         tmp.append(contest)
                         self.contests[contest]=Contest(rs[0],rs[1],rs[2],rs[3],rs[4],rs[5],rs[6],"running",rs[9],self.conn)
                         self.contests[contest].start()
+                    else:
+                        Contest(rs[0],rs[1],rs[2],rs[3],rs[4],rs[5],rs[6],"pending",rs[9],self.conn).record()
             for contest in tmp: 
                 self.pending_contest.remove(contest)
             tmp = []
@@ -178,34 +188,51 @@ class ContestRunner(threading.Thread):
                         self.contests.pop(contest)
             for contest in tmp: 
                 self.running_contest.remove(contest)
-            
             time.sleep(5)
     
     def submit_code(self,contest_id,uid,ICP_id,code,lang):
         if(contest_id in self.contests.keys()):
             return self.contests[contest_id].submit_code(uid,ICP_id,code,lang)
         else:
-            return "None"
+            return "This contest is not running now."
 
     def view_contests(self):
-        msg = "&&&".join([self.contests[contest_id].summary() for contest_id in self.contests.keys()])
+        self.cursor.execute("select contest_summary from contest;")
+        rs = self.cursor.fetchall()
+        self.conn.commit()
+        msg = "&&&".join([summary[0] for summary in rs])
         return msg
 
     def view_contest(self,contest_id):
         if(contest_id in self.contests.keys()):
             return self.contests[contest_id].toString()
+        elif(contest_id in self.pending_contest or contest_id in self.ended_contest):
+            self.cursor.execute("select contest_string from contest where contest_id = "+str(contest_id)+";")
+            rs = self.cursor.fetchone()
+            self.conn.commit()
+            return rs[0]
         else:
-            return "None"
+            return "Contest not found!"
     
     def view_rank(self,contest_id):
         if(contest_id in self.contests.keys()):
             return self.contests[contest_id].show_rank()
+        elif(contest_id in self.pending_contest or contest_id in self.ended_contest):
+            self.cursor.execute("select contest_rank from contest where contest_id = "+str(contest_id)+";")
+            rs = self.cursor.fetchone()
+            self.conn.commit()
+            return rs[0]
         else:
             return "None"
     
     def view_status(self,contest_id):
         if(contest_id in self.contests.keys()):
             return self.contests[contest_id].show_status()
+        elif(contest_id in self.pending_contest or contest_id in self.ended_contest):
+            self.cursor.execute("select contest_judge from contest where contest_id = "+str(contest_id)+";")
+            rs = self.cursor.fetchone()
+            self.conn.commit()
+            return rs[0]
         else:
             return "None"
 
@@ -213,5 +240,4 @@ class ContestRunner(threading.Thread):
         if(contest_id in self.contests.keys()):
             return self.contests[contest_id].problem[ICP_id].show()
         else:
-            return "None"
-
+            return "This contest is not running."
