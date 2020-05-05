@@ -1,8 +1,9 @@
 #ifndef _CONTEST_H
 #define _CONTEST_H
+#include <bits/stdc++.h>
+#include <conio.h>
 #include "datatrans.h"
 #include "dataconv.h"
-#include <bits/stdc++.h>
 using namespace std;
 
 // Contest∆™
@@ -29,7 +30,7 @@ int Find_contest(int user_id)               // ≤È’“±»»¸
     {
         system("CLS");
         cout<<"≈£»À◊‘÷∆‘⁄œﬂ∆¿≤‚œµÕ≥ ver-1.0 (±»»¸“≥) "<<endl;
-        cout<<"1.Ω¯»Î±»»¸  2.∑µªÿ"<<endl<<endl;
+        cout<<"1.Ω¯»Î±»»¸    2.∑µªÿ"<<endl<<endl;
         cout<<setw(5)<<"id"<<setw(20)<<"title"<<setw(20)<<"start_time"<<setw(20)<<"length"<<endl<<endl;
         for(int i = 0 ; i < msgs.size() ; i ++)
         {
@@ -61,7 +62,7 @@ void Show_contests(string type,int user_id)                                     
     {
         msg = split(msgs[i],":::");
         if(msg[0] == "None") {cout<<"None"<<endl;break;}
-        if(type == "own" && msg[4] != itos(user_id)) continue;
+        if(type == "own" && msg[5] != itos(user_id)) continue;
         cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<endl;
     }
     cout<<endl;
@@ -74,7 +75,7 @@ void My_contests(int user_id)                                         // ≤Èø¥±»»
     {
         system("CLS");
         cout<<"≈£»À◊‘÷∆‘⁄œﬂ∆¿≤‚œµÕ≥ ver-1.0 (Œ“µƒ±»»¸) "<<endl;
-        cout<<"1.Ω¯»Î±»»¸   2.∑µªÿ"<<endl<<endl;
+        cout<<"1.Ω¯»Î±»»¸    2.∑µªÿ"<<endl<<endl;
         Show_contests("own",user_id);
         opt = getch();
         if(opt == "1")
@@ -100,10 +101,10 @@ int IC_view_contest(int contest_id,int user_id)                                 
         {
             cout<<"This contest is not running."<<endl;
             cout<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-            getch();getch();
+            getch();
             return 1;
         }
-        cout<<"1.≤Èø¥Ã‚ƒø   2.≤Èø¥≈≈√˚  3.≤Èø¥ µ ±≤‚∆¿    4.∑µªÿ"<<endl<<endl;
+        cout<<"1.≤Èø¥Ã‚ƒø    2.≤Èø¥≈≈√˚    3.≤Èø¥ µ ±≤‚∆¿    4.∑µªÿ"<<endl<<endl;
         vector<string> msg = split(msgs[0],":::");;
         cout<<msg[0]<<"    started at: "<<msg[1]<<"    status: "<<msg[3]<<"    length: "<<msg[2]<<endl<<endl;
         cout<<setw(5)<<"id"<<setw(20)<<"title"<<setw(20)<<"submit"<<setw(20)<<"solved"<<endl<<endl;
@@ -143,16 +144,16 @@ void IC_view_problem(int contest_id,int ICP_id,int user_id)
         {
             cout<<endl<<"This contest is not running."<<endl<<endl;
             cout<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-            getch();getch();
+            getch();
             break;
         }
-        cout<<"1.Ã·Ωª¥˙¬Î   2.∑µªÿ"<<endl<<endl;
+        cout<<"1.Ã·Ωª¥˙¬Î    2.∑µªÿ"<<endl<<endl;
         vector<string> msg;
         for(int i = 1 ; i < msgs.size() ; i  ++)
         {
             msg = split(msgs[i],":::");
             for(int j = 0 ; j < msg.size() ; j ++)
-                cout<<msg[j];
+                cout<<msg[j]<<" ";
             cout<<endl;
         }
         cout<<endl;
@@ -164,20 +165,28 @@ void IC_view_problem(int contest_id,int ICP_id,int user_id)
     }
 }
 
+
 void IC_submit_code(int contest_id,int ICP_id,int user_id)
 {
     string code;
     cout<<"«Î ‰»Î¥˙¬Î£∫"<<endl;
     cin>>code;
+    cout<<"«Î—°‘Ò”Ô—‘£∫1. C    2. C++    3. Python2    4. Python3    5. Java"<<endl;
+    string lang;
+    lang = getch();
+    map<string,string> mp;
+    mp["1"] = "C";mp["2"] = "C++";mp["3"] = "Python2";mp["4"] = "Python3";mp["5"] = "Java";
+    if(lang != "1" && lang != "2" && lang != "3" && lang != "4" && lang != "5")
+        lang = "1";
     system("CLS");
-    string msgg = recv_data("IC_submit_code:::"+itos(contest_id)+":::"+itos(user_id)+":::"+itos(ICP_id)+":::"+code+":::"+"python");
+    string msgg = recv_data("IC_submit_code:::"+itos(contest_id)+":::"+itos(user_id)+":::"+itos(ICP_id)+":::"+code+":::"+mp[lang]);
     vector<string> msgs = split(msgg,"&&&");
     vector<string> msg;
     if(msgg == "This contest is not running.")
     {
         cout<<endl<<"This contest is not running."<<endl;
         cout<<endl<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-        getch();getch();
+        getch();
     }
     cout<<"≈£»À◊‘÷∆‘⁄œﬂ∆¿≤‚œµÕ≥ ver-1.0 (∆¿≤‚Ω·π˚) "<<endl<<endl;
     cout<<setw(5)<<"No."<<setw(20)<<"problem"<<setw(20)<<"user"<<setw(20)<<"time"<<setw(20)<<"language"<<setw(20)<<"result"<<endl<<endl;
@@ -187,7 +196,7 @@ void IC_submit_code(int contest_id,int ICP_id,int user_id)
         cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<setw(20)<<msg[5]<<endl;
     }
     cout<<endl<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-    getch();getch();
+    getch();
 }
 
 void IC_view_rank(int contest_id)
@@ -205,7 +214,7 @@ void IC_view_rank(int contest_id)
     }
     cout<<endl;
     cout<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-    getch();getch();
+    getch();
 }
 
 
@@ -223,7 +232,7 @@ void IC_view_status(int contest_id)
         cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<setw(20)<<msg[5]<<endl;
     }
     cout<<endl<<"∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-    getch();getch();
+    getch();
 }
 
 
@@ -250,7 +259,7 @@ int Create_contest(int user_id)                               // ¥¥Ω®±»»¸
     //cout<<msg<<endl;
     recv_data(msg);
     cout<<"±»»¸¥¥Ω®≥…π¶£°∞¥»Œ“‚º¸∑µªÿ..."<<endl;
-    getch();getch();
+    getch();
 }
 
 time_t convert_str_to_tm(char * str_time)
