@@ -42,13 +42,19 @@ void Index_page()
             if(user_id != -1)
             {
                 cout<<"登录成功!!!!"<<endl;
+                cout<<"按任意键继续..."<<endl;
                 getch();
                 Home_page(user_id);
             }
-            else if(user_id == -1)
+            else if(user_id == -1) {
                 cout<<"密码输入有误请重试"<<endl;
+                cout<<"按任意键继续..."<<endl;
+                getch();
+            }
             else {
                 cout<<"账户输入有误请重试"<<endl;
+                cout<<"按任意键继续..."<<endl;
+                getch();
             }
         }
         if(opt == "3")  {cout<<"按任意键退出系统..."<<endl;getch();return;}
@@ -172,6 +178,14 @@ void Gruop_page(int user_id)
         if(opt == "3") {
                 string name;
                 cout<<"请输入要查找的用户组的名称:";
+                cin>>name;
+                Find_group(name);
+        }
+        if(opt == "4") Create_group(user_id);
+        if(opt == "5") return;
+    }
+}
+"请输入要查找的用户组的名称:";
                 cin>>name;
                 Find_group(name);
         }
