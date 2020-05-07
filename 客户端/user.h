@@ -73,31 +73,46 @@ int Mark_user(int user_id,int dest_id){ // 关注用户
             res2[11]+=itos(dest_id);
             str1="update_user:::favorite_user:::"+itos(user_id)+":::"+res2[11];
             recv_data(str1);
-            //cout<<str<<endl;
             return 1;
         }
     }
     return 0;
 }
 int Apply_group(int user_id,int group_id){// 申请加入用户组
-    string str;
+    string str,str1;
     str=recv_data("get_user");
     vector<string> res1=split(str,"&&&");
     for(int i=0;i<res1.size();i++) {
         vector<string> res2=split(res1[i],":::");
-        vector<string> res3=split(res2[7],"::");
-        for(int k=0;k<res3.size();k++) {
-            if(res3[k]==itos(group_id)) {
-                Add_member(Stoi(res2[0]),group_id,user_id);
+        if(res2[0]==itos(user_id)) {
+            res2[8]+="::";
+            res2[8]+=itos(group_id);
+            str1="update_user:::entered_group:::"+itos(user_id)+":::"+res2[8];
+            recv_data(str1);
+            str1=recv_data("get_group");
+            vector<string> res3=split(str1,"&&&");
+            for(int j=0;j<res3.size();j++) {
+                vector<string> res4=split(res3[j],":::");
+                cout<<res4[0]<<endl;
+                if(res4[0]==itos(group_id)) {
+                    res4[3]+="::";
+                    res4[3]+=itos(user_id);
+                    str1="update_group:::group_member:::"+itos(group_id)+":::"+res4[3];
+                    recv_data(str1);
+                    //cout<<str1<<endl;
+                    return 1;
+                }
             }
         }
     }
+    return 0;
 }
 void Show_users(){// 查看所有用户
     string str;
     str=recv_data("get_user");
     vector<string> res1=split(str,"&&&");
     cout<<setw(5)<<"ID号"<<setw(15)<<"用户名"<<setw(15)<<"昵称"<<setw(30)<<"已解决的题目数量"<<setw(30)<<"尝试解决的题目数量"<<endl<<endl;
+//    sort()
     for(int i=0;i<res1.size();i++){
         vector<string> res2=split(res1[i],":::");
         cout<<setw(5)<<res2[0];
@@ -108,7 +123,6 @@ void Show_users(){// 查看所有用户
         vector<string> res4=split(res2[5],"::");
         cout<<setw(30)<<res3.size()-1<<setw(30)<<res4.size()-1<<endl;
     }
-    getchar();
 }
 void user_show_info(int user_id)
 {
@@ -124,7 +138,7 @@ void user_show_info(int user_id)
             cout<<"已解决的题目:";
             for(int j=1;j<res4.size();j++) {
                 cout<<res4[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -133,7 +147,7 @@ void user_show_info(int user_id)
             cout<<"尝试解决的题目:";
             for(int j=1;j<res5.size();j++) {
                 cout<<res5[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -142,7 +156,7 @@ void user_show_info(int user_id)
             cout<<"收藏的题目:";
             for(int j=1;j<res6.size();j++) {
                 cout<<res6[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -151,7 +165,7 @@ void user_show_info(int user_id)
             vector<string> res7=split(res2[7],"::");
             for(int j=1;j<res7.size();j++) {
                 cout<<res7[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -160,7 +174,7 @@ void user_show_info(int user_id)
             cout<<"加入的用户组:";
             for(int j=1;j<res8.size();j++) {
                 cout<<res8[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -169,7 +183,7 @@ void user_show_info(int user_id)
             cout<<"创建的比赛:";
             for(int j=1;j<res9.size();j++) {
                 cout<<res9[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -178,7 +192,7 @@ void user_show_info(int user_id)
             cout<<"加入的比赛:";
             for(int j=1;j<res10.size();j++) {
                 cout<<res10[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -187,7 +201,7 @@ void user_show_info(int user_id)
             cout<<"关注的用户:";
             for(int j=1;j<res11.size();j++) {
                 cout<<res11[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -238,7 +252,7 @@ void View_user(int uid,int user_id)
             cout<<"已解决的题目:";
             for(int j=1;j<res4.size();j++) {
                 cout<<res4[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -247,7 +261,7 @@ void View_user(int uid,int user_id)
             cout<<"尝试解决的题目:";
             for(int j=1;j<res5.size();j++) {
                 cout<<res5[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -256,7 +270,7 @@ void View_user(int uid,int user_id)
             cout<<"收藏的题目:";
             for(int j=1;j<res6.size();j++) {
                 cout<<res6[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -265,7 +279,7 @@ void View_user(int uid,int user_id)
             vector<string> res7=split(res2[7],"::");
             for(int j=1;j<res7.size();j++) {
                 cout<<res7[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -274,7 +288,7 @@ void View_user(int uid,int user_id)
             cout<<"加入的用户组:";
             for(int j=1;j<res8.size();j++) {
                 cout<<res8[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -292,7 +306,7 @@ void View_user(int uid,int user_id)
             cout<<"加入的比赛:";
             for(int j=1;j<res10.size();j++) {
                 cout<<res10[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -301,7 +315,7 @@ void View_user(int uid,int user_id)
             cout<<"关注的用户:";
             for(int j=1;j<res11.size();j++) {
                 cout<<res11[j]<<" ";
-                if(j%10==0) {
+                if(j%50==0) {
                     cout<<endl;
                 }
             }
@@ -363,7 +377,7 @@ int Sign_up()
     str="create_user:::"+username+":::"+nickname+":::"+word;
     recv_data(str);
     cout<<"注册成功！"<<endl;
-    cout<<"按任意键返回"<<endl;
+    cout<<"按任意键继续"<<endl;
     getchar();
     getchar();
     return 1;
@@ -376,7 +390,17 @@ int Sign_in()
     cout<<"请输入用户名：";
     cin>>username;
     cout<<"请输入密码：";
-    cin>>word;
+    for(int i=0;;i++) {
+        char ch=getch();
+        if(ch==13) {
+            break;
+        }
+        else {
+            word+=ch;
+            cout<<"*";
+        }
+    }
+    cout<<endl;
     str=recv_data("get_user");
     //cout<<str<<endl;
     vector<string> users = split(str,"&&&");
