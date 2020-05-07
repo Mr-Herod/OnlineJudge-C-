@@ -17,7 +17,6 @@ struct Group{
 
 // Group篇
 int View_group_contest(int group_id);                       // 查看用户组的比赛
-int Add_member(int user_id,int group_id,int dest_id);       // 添加新成员
 int Create_group(int user_id);                              // 创建用户组
 void Show_groups(string type,int user_id);                  // 查看所有组
 void Find_group(int user_id);                               // 查找用户组
@@ -45,9 +44,10 @@ int View_group_contest(int group_id){// 查看用户组的比赛
     getch();
     return 1;
 }
-int Add_member(int user_id,int group_id,int dest_id){// 添加新成员
+/*int Add_member(int user_id,int group_id,int dest_id){// 添加新成员
     string str,str1;
     str=recv_data("get_group");
+    cout<<str<<endl;
     vector<string> res1=split(str,"&&&");
     for(int i=0;i<res1.size();i++) {
         vector<string> res2=split(res1[i],":::");
@@ -56,13 +56,11 @@ int Add_member(int user_id,int group_id,int dest_id){// 添加新成员
             res2[3]+=itos(dest_id);
             str1="update_group:::group_member:::"+itos(group_id)+":::"+res2[3];
             recv_data(str1);
-            return 1;
+            cout<<str<<endl;
         }
-
     }
-    cout<<"按任意键继续..."<<endl;
-    getch();
-}
+    return 1;
+}*/
 void Show_groups(string type,int user_id){ // 查看组
     string str;
     str=recv_data("get_group");
@@ -121,13 +119,31 @@ void Find_group(string name){// 查找用户组
 }
 
 int Create_group(int user_id){// 创建用户组
-    string s,name,str;
+    string s,name;
     cout<<"请输入新建用户组的名称(不可超过20个字符):";
     cin>>name;
     s="create_group:::"+itos(user_id)+":::"+name;
     recv_data(s);
-    //str=recv_data("get_group");
-    cout<<str<<endl;
+    string str,str1;
+    str=recv_data("get_user");
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(res2[0]==itos(user_id)) {
+            s=recv_data("get_group");
+            vector<string> res3=split(s,"&&&");
+            for(int j=0;j<res3.size();j++) {
+                vector<string> res4=split(res3[j],":::");
+                if(res4[2]==name) {
+                    res2[7]+="::";
+                    res2[7]+=res4[0];
+                    str1="update_user:::owned_group:::"+itos(user_id)+":::"+res2[7];
+                    recv_data(str1);
+                }
+            }
+        }
+    }
+    //cout<<str<<endl;
     cout<<"创建成功！"<<endl;
     cout<<"按任意键返回"<<endl;
     getchar();
