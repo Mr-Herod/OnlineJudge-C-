@@ -20,10 +20,83 @@ int View_group_contest(int group_id);                       // 查看用户组�
 int Create_group(int user_id);                              // 创建用户组
 void Show_groups(string type,int user_id);                  // 查看所有组
 void Find_group(int user_id);                               // 查找用户组
+int Apply_group(int user_id,int group_id);                  // 申请加入用户组
 
 
 
 // Group篇
+/*int Apply_group(int user_id,int group_id){// 申请加入用户组
+    string str,str1;
+    str=recv_data("get_user");
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(res2[0]==itos(user_id)) {
+            str1=recv_data("get_group");
+            vector<string> res3=split(str1,"&&&");
+            for(int j=0;j<res3.size();j++) {
+                vector<string> res4=split(res3[j],":::");
+                if(res4[0]==itos(group_id)) {
+                    vector<string> res5=split(res4[3],":::");
+                    for(int k=0;k<res5.size();i++) {
+                        if(res5[k]==itos(group_id)) {
+                            cout<<"您已在该用户组"<<endl;
+                            return 0;
+                        }
+                    }
+                    res2[8]+="::";
+                    res2[8]+=itos(group_id);
+                    str1="update_user:::entered_group:::"+itos(user_id)+":::"+res2[8];
+                    recv_data(str1);
+
+                    res4[3]+="::";
+                    res4[3]+=itos(user_id);
+                    str1="update_group:::group_member:::"+itos(group_id)+":::"+res4[3];
+                    recv_data(str1);
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}*/
+int Apply_group(int user_id,int group_id){// 申请加入用户组
+    string str,str1;
+    str=recv_data("get_user");
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(res2[0]==itos(user_id)) {
+            str1=recv_data("get_group");
+            vector<string> res3=split(str1,"&&&");
+            for(int j=0;j<res3.size();j++) {
+                vector<string> res4=split(res3[j],":::");
+                if(res4[0]==itos(group_id)) {
+                    vector<string> res5=split(res4[3],"::");
+                    for(int k=0;k<res5.size();k++) {
+                        if(res5[k]==itos(user_id)) {
+                            cout<<"您已在该用户组"<<endl;
+                            return 0;
+                        }
+                    }
+                    res2[8]+="::";
+                    res2[8]+=itos(group_id);
+                    str1="update_user:::entered_group:::"+itos(user_id)+":::"+res2[8];
+                    recv_data(str1);
+                    res4[3]+="::";
+                    res4[3]+=itos(user_id);
+                    str1="update_group:::group_member:::"+itos(group_id)+":::"+res4[3];
+                    recv_data(str1);
+                    return 1;
+                }
+
+            }
+            cout<<"该用户组不存在"<<endl;
+            return 0;
+        }
+    }
+    return 0;
+}
 int View_group_contest(int group_id){// 查看用户组的比赛
     string str,name;
     str=recv_data("get_group");
@@ -44,23 +117,7 @@ int View_group_contest(int group_id){// 查看用户组的比赛
     getch();
     return 1;
 }
-/*int Add_member(int user_id,int group_id,int dest_id){// 添加新成员
-    string str,str1;
-    str=recv_data("get_group");
-    cout<<str<<endl;
-    vector<string> res1=split(str,"&&&");
-    for(int i=0;i<res1.size();i++) {
-        vector<string> res2=split(res1[i],":::");
-        if(res2[1]==itos(user_id)&&res2[0]==itos(group_id)) {
-            res2[3]+="::";
-            res2[3]+=itos(dest_id);
-            str1="update_group:::group_member:::"+itos(group_id)+":::"+res2[3];
-            recv_data(str1);
-            cout<<str<<endl;
-        }
-    }
-    return 1;
-}*/
+
 void Show_groups(string type,int user_id){ // 查看组
     string str;
     str=recv_data("get_group");
