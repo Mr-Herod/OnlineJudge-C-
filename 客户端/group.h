@@ -4,28 +4,17 @@
 #include "dataconv.h"
 #include <bits/stdc++.h>
 using namespace std;
+// GroupÆª
+int View_group_contest(int group_id);                       // ²é¿´ÓÃ»§×éµÄ±ÈÈü
+int Create_group(int user_id);                              // ´´½¨ÓÃ»§×é
+void Show_groups(string type,int user_id);                  // ²é¿´ËùÓĞ×é
+void Find_group(int user_id);                               // ²éÕÒÓÃ»§×é
+int Apply_group(int user_id,int group_id);                  // ÉêÇë¼ÓÈëÓÃ»§×é
+string Get_username(int user_id);                           // »ñÈ¡ÓÃ»§êÇ³Æ
+string Get_groupname(int group_id);                         // »ñÈ¡ÓÃ»§×éÃû
 
-// ç”¨æˆ·ç»„ç±»
-struct Group{
-    int group_id;                   // ç”¨æˆ·ç»„ID
-    int group_owner;                // ç”¨æˆ·ç»„åˆ›å»ºè€…
-    string group_name;                 // ç”¨æˆ·ç»„å
-    vector<int> group_member;       // ç”¨æˆ·ç»„æˆå‘˜
-    vector<int> group_contest;      // ç”¨æˆ·ç»„åˆ›å»ºçš„æ¯”èµ›
-};
-
-
-// Groupç¯‡
-int View_group_contest(int group_id);                       // æŸ¥çœ‹ç”¨æˆ·ç»„çš„æ¯”èµ›
-int Create_group(int user_id);                              // åˆ›å»ºç”¨æˆ·ç»„
-void Show_groups(string type,int user_id);                  // æŸ¥çœ‹æ‰€æœ‰ç»„
-void Find_group(int user_id);                               // æŸ¥æ‰¾ç”¨æˆ·ç»„
-int Apply_group(int user_id,int group_id);                  // ç”³è¯·åŠ å…¥ç”¨æˆ·ç»„
-
-
-
-// Groupç¯‡
-/*int Apply_group(int user_id,int group_id){// ç”³è¯·åŠ å…¥ç”¨æˆ·ç»„
+// GroupÆª
+/*int Apply_group(int user_id,int group_id){// ÉêÇë¼ÓÈëÓÃ»§×é
     string str,str1;
     str=recv_data("get_user");
     vector<string> res1=split(str,"&&&");
@@ -40,7 +29,7 @@ int Apply_group(int user_id,int group_id);                  // ç”³è¯·åŠ å…¥ç”¨æˆ
                     vector<string> res5=split(res4[3],":::");
                     for(int k=0;k<res5.size();i++) {
                         if(res5[k]==itos(group_id)) {
-                            cout<<"æ‚¨å·²åœ¨è¯¥ç”¨æˆ·ç»„"<<endl;
+                            cout<<"ÄúÒÑÔÚ¸ÃÓÃ»§×é"<<endl;
                             return 0;
                         }
                     }
@@ -60,7 +49,7 @@ int Apply_group(int user_id,int group_id);                  // ç”³è¯·åŠ å…¥ç”¨æˆ
     }
     return 0;
 }*/
-int Apply_group(int user_id,int group_id){// ç”³è¯·åŠ å…¥ç”¨æˆ·ç»„
+int Apply_group(int user_id,int group_id){// ÉêÇë¼ÓÈëÓÃ»§×é
     string str,str1;
     str=recv_data("get_user");
     vector<string> res1=split(str,"&&&");
@@ -75,7 +64,7 @@ int Apply_group(int user_id,int group_id){// ç”³è¯·åŠ å…¥ç”¨æˆ·ç»„
                     vector<string> res5=split(res4[3],"::");
                     for(int k=0;k<res5.size();k++) {
                         if(res5[k]==itos(user_id)) {
-                            cout<<"æ‚¨å·²åœ¨è¯¥ç”¨æˆ·ç»„"<<endl;
+                            cout<<"ÄúÒÑÔÚ¸ÃÓÃ»§×é"<<endl;
                             return 0;
                         }
                     }
@@ -91,13 +80,13 @@ int Apply_group(int user_id,int group_id){// ç”³è¯·åŠ å…¥ç”¨æˆ·ç»„
                 }
 
             }
-            cout<<"è¯¥ç”¨æˆ·ç»„ä¸å­˜åœ¨"<<endl;
+            cout<<"¸ÃÓÃ»§×é²»´æÔÚ"<<endl;
             return 0;
         }
     }
     return 0;
 }
-int View_group_contest(int group_id){// æŸ¥çœ‹ç”¨æˆ·ç»„çš„æ¯”èµ›
+int View_group_contest(int group_id){// ²é¿´ÓÃ»§×éµÄ±ÈÈü
     string str,name;
     str=recv_data("get_group");
     vector<string> res1=split(str,"&&&");
@@ -113,71 +102,48 @@ int View_group_contest(int group_id){// æŸ¥çœ‹ç”¨æˆ·ç»„çš„æ¯”èµ›
             }
         }
     }
-    cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
+    cout<<"°´ÈÎÒâ¼ü¼ÌĞø..."<<endl;
     getch();
     return 1;
 }
 
-void Show_groups(string type,int user_id){ // æŸ¥çœ‹ç»„
+void Show_groups(string type,int user_id){ // ²é¿´×é
     string str;
     str=recv_data("get_group");
-    if(type=="own") {
-        cout<<setw(10)<<"ç”¨æˆ·ç»„ID"<<setw(25)<<"ç”¨æˆ·ç»„åˆ›å»ºè€…ID"<<setw(25)<<"ç”¨æˆ·ç»„åç§°"<<setw(25)<<"ç”¨æˆ·ç»„æˆå‘˜æ•°é‡"<<setw(25)<<"ç”¨æˆ·ç»„åˆ›å»ºçš„æ¯”èµ›æ•°é‡"<<endl<<endl;
-        vector<string> res1=split(str,"&&&");
-        for(int i=0;i<res1.size();i++) {
-            vector<string> res2=split(res1[i],":::");
-            if(res2[1]==itos(user_id)) {
-                cout<<setw(10)<<res2[0];
-                cout<<setw(25)<<res2[1];
-                cout<<setw(25)<<res2[2];
-                vector<string> res3=split(res2[3],"::");
-                vector<string> res4=split(res2[4],"::");
-                cout<<setw(25)<<res3.size()-1<<setw(25)<<res4.size()-1<<endl;
-            }
-        }
-        cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
-        getch();
-    }
-    if(type=="all") {
-        cout<<setw(10)<<"ç”¨æˆ·ç»„ID"<<setw(25)<<"ç”¨æˆ·ç»„åˆ›å»ºè€…ID"<<setw(25)<<"ç”¨æˆ·ç»„åç§°"<<setw(25)<<"ç”¨æˆ·ç»„æˆå‘˜æ•°é‡"<<setw(25)<<"ç”¨æˆ·ç»„åˆ›å»ºçš„æ¯”èµ›æ•°é‡"<<endl<<endl;
-        vector<string> res1=split(str,"&&&");
-        for(int i=0;i<res1.size();i++) {
-            vector<string> res2=split(res1[i],":::");
-            cout<<setw(10)<<res2[0];
-            cout<<setw(25)<<res2[1];
-            cout<<setw(25)<<res2[2];
-            vector<string> res3=split(res2[3],"::");
-            vector<string> res4=split(res2[4],"::");
-            cout<<setw(25)<<res3.size()-1<<setw(25)<<res4.size()-1<<endl;
-        }
-        cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
-        getch();
+    cout<<setw(6)<<"ID"<<setw(15)<<"´´½¨Õß"<<setw(15)<<"Ãû³Æ"<<setw(15)<<"³ÉÔ±ÊıÁ¿"<<setw(15)<<"±ÈÈüÊıÁ¿"<<endl<<endl;
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(type=="own"  && res2[1] != itos(user_id))    continue;
+        cout<<setw(6)<<res2[0];
+        cout<<setw(15)<<Get_username(Stoi(res2[1]));
+        cout<<setw(15)<<res2[2];
+        vector<string> res3=split(res2[3],"::");
+        vector<string> res4=split(res2[4],"::");
+        cout<<setw(15)<<res3.size()-1<<setw(15)<<res4.size()-1<<endl;
     }
 }
-void Find_group(string name){// æŸ¥æ‰¾ç”¨æˆ·ç»„
+void Find_group(string name){// ²éÕÒÓÃ»§×é
     string str;
     str=recv_data("get_group");
-    cout<<setw(10)<<"ç”¨æˆ·ç»„ID"<<setw(25)<<"ç”¨æˆ·ç»„åˆ›å»ºè€…ID"<<setw(25)<<"ç”¨æˆ·ç»„åç§°"<<setw(25)<<"ç”¨æˆ·ç»„æˆå‘˜æ•°é‡"<<setw(25)<<"ç”¨æˆ·ç»„åˆ›å»ºçš„æ¯”èµ›æ•°é‡"<<endl<<endl;
+    cout<<setw(6)<<"ID"<<setw(15)<<"´´½¨Õß"<<setw(15)<<"Ãû³Æ"<<setw(15)<<"³ÉÔ±ÊıÁ¿"<<setw(15)<<"±ÈÈüÊıÁ¿"<<endl<<endl;
     vector<string> res1=split(str,"&&&");
     for(int i=0;i<res1.size();i++) {
         vector<string> res2=split(res1[i],":::");
         if(match(res2[2],name)) {
-            cout<<setw(10)<<res2[0];
-            cout<<setw(25)<<res2[1];
-            cout<<setw(25)<<res2[2];
+            cout<<setw(6)<<res2[0];
+            cout<<setw(15)<<Get_username(Stoi(res2[1]));
+            cout<<setw(15)<<res2[2];
             vector<string> res3=split(res2[3],"::");
             vector<string> res4=split(res2[4],"::");
-            cout<<setw(25)<<res3.size()-1<<setw(25)<<res4.size()-1<<endl;
+            cout<<setw(15)<<res3.size()-1<<setw(15)<<res4.size()-1<<endl;
         }
     }
-    cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
-    getchar();
-    getch();
 }
 
-int Create_group(int user_id){// åˆ›å»ºç”¨æˆ·ç»„
+int Create_group(int user_id){// ´´½¨ÓÃ»§×é
     string s,name;
-    cout<<"è¯·è¾“å…¥æ–°å»ºç”¨æˆ·ç»„çš„åç§°(ä¸å¯è¶…è¿‡20ä¸ªå­—ç¬¦):";
+    cout<<"ÇëÊäÈëĞÂ½¨ÓÃ»§×éµÄÃû³Æ(²»¿É³¬¹ı20¸ö×Ö·û):";
     cin>>name;
     s="create_group:::"+itos(user_id)+":::"+name;
     recv_data(s);
@@ -201,12 +167,37 @@ int Create_group(int user_id){// åˆ›å»ºç”¨æˆ·ç»„
         }
     }
     //cout<<str<<endl;
-    cout<<"åˆ›å»ºæˆåŠŸï¼"<<endl;
-    cout<<"æŒ‰ä»»æ„é”®è¿”å›"<<endl;
+    cout<<"´´½¨³É¹¦£¡"<<endl;
+    cout<<"°´ÈÎÒâ¼ü·µ»Ø"<<endl;
     getchar();
     getch();
     return 1;
 }
 
+string Get_username(int user_id)
+{
+    string str=recv_data("get_user");
+    vector<string> users = split(str,"&&&");
+    for(int i = 0 ; i < users.size() ; i ++)
+    {
+        vector<string> user = split(users[i],":::");
+        if(user[0] == itos(user_id))
+            return user[1];
+    }
+    return "admin";
+}
+
+string Get_groupname(int group_id)
+{
+    string str=recv_data("get_group");
+    vector<string> groups = split(str,"&&&");
+    for(int i = 0 ; i < groups.size() ; i ++)
+    {
+        vector<string> group = split(groups[i],":::");
+        if(group[0] == itos(group_id))
+            return group[2];
+    }
+    return "admin";
+}
 
 #endif            // magic code don't touch  !!!

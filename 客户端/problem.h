@@ -42,7 +42,7 @@ int Find_pro(int user_id)                                   // 查找题目
             if(!match(msg[3],pro_title)) continue;
             cout<<setw(5)<<msg[0]<<setw(10)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<endl;
         }
-        cin>>opt;
+        opt = getch();
         if(opt == "1")
         {
             int pro_id;
@@ -71,7 +71,7 @@ int View_pro(int pro_id,int user_id)                       // 查看题目详情
             }
         cout<<problem_info[3]<<endl<<endl;
         cout<<problem_info[5]<<endl<<endl;
-        cin>>opt;
+        opt = getch();
         if(opt == "1")
         {
             string code;
@@ -128,7 +128,7 @@ int Solved_problem(int user_id)
         cout<<"牛人自制在线评测系统 ver-1.0 (题目页) "<<endl;
         cout<<"1.查看题目  2.返回"<<endl;
         Show_problems("solved",user_id);
-        cin>>opt;
+        opt = getch();
         if(opt == "1")
         {
             int pro_id;
@@ -149,7 +149,7 @@ int Attempted_problem(int user_id)
         cout<<"牛人自制在线评测系统 ver-1.0 (题目页) "<<endl;
         cout<<"1.查看题目  2.返回"<<endl;
         Show_problems("attempted",user_id);
-        cin>>opt;
+        opt = getch();
         if(opt == "1")
         {
             int pro_id;
