@@ -19,29 +19,39 @@ void Find_user(string nickname,int user_id);    // 查找用户
 
 // User篇
 int Change_info(int user_id){  // 修改个人信息
-    string str,str1,str2;
-    string nickname,password;
-    str=recv_data("get_user");
-    vector<string> res1=split(str,"&&&");
-    for(int i=0;i<res1.size();i++) {
-        vector<string> res2=split(res1[i],":::");
-        if(res2[0]==itos(user_id)) {
-            string opt;
-            cout<<"1.修改昵称\t2.修改密码"<<endl;
-            opt=getch();
-            if(opt=="1") {
-                cout<<"请输入新昵称:";
-                cin>>nickname;
-                str1="update_user:::user_nickname:::"+itos(user_id)+":::"+nickname;
-                recv_data(str1);
-                return 1;
-            }
-            if(opt=="2") {
-                cout<<"请输入新密码:";
-                cin>>password;
-                str2="update_user:::user_pwd:::"+itos(user_id)+":::"+password;
-                recv_data(str2);
-                return 1;
+    while(true) {
+        system("CLS");
+        cout<<"牛人自制在线评测系统 ver-1.0 (个人信息页) "<<endl;
+        cout<<"1.修改信息    2.申请加入用户组    3.退出"<<endl<<endl;
+        string str,str1,str2;
+        string nickname,password;
+        str=recv_data("get_user");
+        vector<string> res1=split(str,"&&&");
+        for(int i=0;i<res1.size();i++) {
+            vector<string> res2=split(res1[i],":::");
+            if(res2[0]==itos(user_id)) {
+                string opt;
+                system("CLS");
+                cout<<"牛人自制在线评测系统 ver-1.0 (个人信息页) "<<endl;
+                cout<<"1.修改昵称    2.修改密码    3.退出"<<endl<<endl;
+                opt=getch();
+                if(opt=="1") {
+                    cout<<"请输入新昵称:";
+                    cin>>nickname;
+                    str1="update_user:::user_nickname:::"+itos(user_id)+":::"+nickname;
+                    recv_data(str1);
+                    return 1;
+                }
+                if(opt=="2") {
+                    cout<<"请输入新密码:";
+                    cin>>password;
+                    str2="update_user:::user_pwd:::"+itos(user_id)+":::"+password;
+                    recv_data(str2);
+                    return 1;
+                }
+                if(opt=="3") {
+                    return 0;
+                }
             }
         }
     }
