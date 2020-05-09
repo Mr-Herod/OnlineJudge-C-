@@ -11,12 +11,12 @@
 using namespace std;
 
 // Main flow
-void Index_page();                  // Òıµ¼Ò³Ãæ
-void Home_page(int user_id);        // ÓÃ»§Ö÷Ò³
-void Probelm_page(int user_id);     // ÎÊÌâÒ³Ãæ
-void Contest_page(int user_id);     // ±ÈÈüÒ³Ãæ
-void User_page(int user_id);        // ÓÃ»§Ò³Ãæ
-void Gruop_page(int user_id);       // ÓÃ»§×éÒ³Ãæ
+void Index_page();                  // å¼•å¯¼é¡µé¢
+void Home_page(int user_id);        // ç”¨æˆ·ä¸»é¡µ
+void Probelm_page(int user_id);     // é—®é¢˜é¡µé¢
+void Contest_page(int user_id);     // æ¯”èµ›é¡µé¢
+void User_page(int user_id);        // ç”¨æˆ·é¡µé¢
+void Gruop_page(int user_id);       // ç”¨æˆ·ç»„é¡µé¢
 
 
 int main()
@@ -35,8 +35,8 @@ void Index_page()
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 "<<endl;
-        cout<<"1.×¢²á    2.µÇÂ¼    3.ÍË³ö"<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 "<<endl;
+        cout<<"1.æ³¨å†Œ    2.ç™»å½•    3.é€€å‡º"<<endl;
         opt = getch();
         if(opt == "1")  Sign_up();
         if(opt == "2")
@@ -44,23 +44,23 @@ void Index_page()
             int user_id = Sign_in();
             if(user_id != -1)
             {
-                cout<<"µÇÂ¼³É¹¦!!!!"<<endl;
-                cout<<"°´ÈÎÒâ¼ü¼ÌĞø..."<<endl;
+                cout<<"ç™»å½•æˆåŠŸ!!!!"<<endl;
+                cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
                 getch();
                 Home_page(user_id);
             }
             else if(user_id == -1) {
-                cout<<"ÃÜÂëÊäÈëÓĞÎóÇëÖØÊÔ"<<endl;
-                cout<<"°´ÈÎÒâ¼ü¼ÌĞø..."<<endl;
+                cout<<"å¯†ç è¾“å…¥æœ‰è¯¯è¯·é‡è¯•"<<endl;
+                cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
                 getch();
             }
             else {
-                cout<<"ÕË»§ÊäÈëÓĞÎóÇëÖØÊÔ"<<endl;
-                cout<<"°´ÈÎÒâ¼ü¼ÌĞø..."<<endl;
+                cout<<"è´¦æˆ·è¾“å…¥æœ‰è¯¯è¯·é‡è¯•"<<endl;
+                cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
                 getch();
             }
         }
-        if(opt == "3")  {cout<<"°´ÈÎÒâ¼üÍË³öÏµÍ³..."<<endl;getch();return;}
+        if(opt == "3")  {cout<<"æŒ‰ä»»æ„é”®é€€å‡ºç³»ç»Ÿ..."<<endl;getch();return;}
     }
 
 }
@@ -71,8 +71,8 @@ void Home_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (¸öÈËĞÅÏ¢Ò³) "<<endl;
-        cout<<"1.²é¿´¸öÈËĞÅÏ¢    2.ÌâÄ¿Ò³    3.±ÈÈüÒ³    4.ÓÃ»§Ò³    5.ÓÃ»§×éÒ³    6.ÍË³ö"<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 (ä¸ªäººä¿¡æ¯é¡µ) "<<endl;
+        cout<<"1.æŸ¥çœ‹ä¸ªäººä¿¡æ¯    2.é¢˜ç›®é¡µ    3.æ¯”èµ›é¡µ    4.ç”¨æˆ·é¡µ    5.ç”¨æˆ·ç»„é¡µ    6.é€€å‡º"<<endl;
         opt = getch();
         if(opt == "1")  user_show_info(user_id);
         if(opt == "2")  Probelm_page(user_id);
@@ -90,15 +90,15 @@ void Contest_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (±ÈÈüÒ³) "<<endl;
-        cout<<"1.ÎÒµÄ±ÈÈü    2.½øÈë±ÈÈü    3.ËÑË÷±ÈÈü    4.´´½¨±ÈÈü    5.·µ»Ø"<<endl<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 (æ¯”èµ›é¡µ) "<<endl;
+        cout<<"1.æˆ‘çš„æ¯”èµ›    2.è¿›å…¥æ¯”èµ›    3.æœç´¢æ¯”èµ›    4.åˆ›å»ºæ¯”èµ›    5.è¿”å›"<<endl<<endl;
         Show_contests("all",user_id);
         opt = getch();
         if(opt == "1") My_contests(user_id);
         if(opt == "2")
         {
             int contest_id;
-            cout<<"ÇëÊäÈë±ÈÈüID:";
+            cout<<"è¯·è¾“å…¥æ¯”èµ›ID:";
             cin>>contest_id;
             IC_view_contest(contest_id,user_id);
         }
@@ -115,8 +115,8 @@ void Probelm_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÌâÄ¿Ò³) "<<endl;
-        cout<<"1.Í¨¹ıµÄÌâÄ¿    2.³¢ÊÔµÄÌâÄ¿    3.²é¿´ÌâÄ¿    4.ËÑË÷ÌâÄ¿    5.·µ»Ø"<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 (é¢˜ç›®é¡µ) "<<endl;
+        cout<<"1.é€šè¿‡çš„é¢˜ç›®    2.å°è¯•çš„é¢˜ç›®    3.æŸ¥çœ‹é¢˜ç›®    4.æœç´¢é¢˜ç›®    5.è¿”å›"<<endl;
         Show_problems("all",user_id);
         opt = getch();
         if(opt == "1") Solved_problem(user_id);
@@ -124,7 +124,7 @@ void Probelm_page(int user_id)
         if(opt == "3")
         {
             int pro_id;
-            cout<<"ÇëÊäÈëÌâÄ¿ID£º";
+            cout<<"è¯·è¾“å…¥é¢˜ç›®IDï¼š";
             cin>>pro_id;
             View_pro(pro_id,user_id);
         }
@@ -139,23 +139,22 @@ void User_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÓÃ»§Ò³) "<<endl;
-        cout<<"1.²é¿´ÓÃ»§    2.ËÑË÷ÓÃ»§    3.·µ»Ø"<<endl<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 (ç”¨æˆ·é¡µ) "<<endl;
+        cout<<"1.æŸ¥çœ‹ç”¨æˆ·    2.æœç´¢ç”¨æˆ·    3.è¿”å›"<<endl<<endl;
         Show_users();
-        //cout<<"°´ÈÎÒâ¼ü¼ÌĞø..."<<endl;
         opt = getch();
         if(opt == "1")
         {
             int uid;
-            cout<<"ÇëÊäÈëÓÃ»§ID:";
+            cout<<"è¯·è¾“å…¥ç”¨æˆ·ID:";
             cin>>uid;
             View_user(uid,user_id);
         }
         if(opt == "2") {
             string nickname;
-            cout<<"ÇëÊäÈëÓÃ»§êÇ³Æ:";
+            cout<<"è¯·è¾“å…¥ç”¨æˆ·æ˜µç§°:";
             cin>>nickname;
-            Find_user(nickname);
+            Find_user(nickname,user_id);
         }
         if(opt == "3") {
             return;
@@ -170,37 +169,37 @@ void Gruop_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÓÃ»§×éÒ³) "<<endl;
-        cout<<"1.²é¿´×Ô¼ºÓÃ»§×é    2.²é¿´ËùÓĞÓÃ»§×é    3.²éÕÒÓÃ»§×é    4.´´½¨ÓÃ»§×é    5.·µ»Ø"<<endl<<endl;
+        cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 (ç”¨æˆ·ç»„é¡µ) "<<endl;
+        cout<<"1.æŸ¥çœ‹è‡ªå·±ç”¨æˆ·ç»„    2.æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·ç»„    3.æŸ¥æ‰¾ç”¨æˆ·ç»„    4.åˆ›å»ºç”¨æˆ·ç»„    5.è¿”å›"<<endl<<endl;
         Show_groups("all",user_id);
         opt = getch();
         if(opt == "1")
         {
             system("CLS");
-            cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÓÃ»§×éÒ³) "<<endl;
-            cout<<"1.²é¿´×Ô¼ºÓÃ»§×é    2.²é¿´ËùÓĞÓÃ»§×é    3.²éÕÒÓÃ»§×é    4.´´½¨ÓÃ»§×é    5.·µ»Ø"<<endl<<endl;
+            cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 (ç”¨æˆ·ç»„é¡µ) "<<endl;
+            cout<<"1.æŸ¥çœ‹è‡ªå·±ç”¨æˆ·ç»„    2.æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·ç»„    3.æŸ¥æ‰¾ç”¨æˆ·ç»„    4.åˆ›å»ºç”¨æˆ·ç»„    5.è¿”å›"<<endl<<endl;
             Show_groups("own",user_id);
-            cout<<"°´ÈÎÒâ¼ü¼ÌĞø..."<<endl;
+            cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
             getch();
         }
         if(opt == "2")
         {
             system("CLS");
-            cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÓÃ»§×éÒ³) "<<endl;
-            cout<<"1.²é¿´×Ô¼ºÓÃ»§×é    2.²é¿´ËùÓĞÓÃ»§×é    3.²éÕÒÓÃ»§×é    4.´´½¨ÓÃ»§×é    5.·µ»Ø"<<endl<<endl;
+            cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 (ç”¨æˆ·ç»„é¡µ) "<<endl;
+            cout<<"1.æŸ¥çœ‹è‡ªå·±ç”¨æˆ·ç»„    2.æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·ç»„    3.æŸ¥æ‰¾ç”¨æˆ·ç»„    4.åˆ›å»ºç”¨æˆ·ç»„    5.è¿”å›"<<endl<<endl;
             Show_groups("all",user_id);
-            cout<<"°´ÈÎÒâ¼ü¼ÌĞø..."<<endl;
+            cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
             getch();
         }
         if(opt == "3") {
                 string name;
-                cout<<"ÇëÊäÈëÒª²éÕÒµÄÓÃ»§×éµÄÃû³Æ:";
+                cout<<"è¯·è¾“å…¥è¦æŸ¥æ‰¾çš„ç”¨æˆ·ç»„çš„åç§°:";
                 cin>>name;
                 system("CLS");
-                cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÓÃ»§×éÒ³) "<<endl;
-                cout<<"1.²é¿´×Ô¼ºÓÃ»§×é    2.²é¿´ËùÓĞÓÃ»§×é    3.²éÕÒÓÃ»§×é    4.´´½¨ÓÃ»§×é    5.·µ»Ø"<<endl<<endl;
+                cout<<"ç‰›äººè‡ªåˆ¶åœ¨çº¿è¯„æµ‹ç³»ç»Ÿ ver-1.0 (ç”¨æˆ·ç»„é¡µ) "<<endl;
+                cout<<"1.æŸ¥çœ‹è‡ªå·±ç”¨æˆ·ç»„    2.æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·ç»„    3.æŸ¥æ‰¾ç”¨æˆ·ç»„    4.åˆ›å»ºç”¨æˆ·ç»„    5.è¿”å›"<<endl<<endl;
                 Find_group(name);
-                cout<<"°´ÈÎÒâ¼ü¼ÌĞø..."<<endl;
+                cout<<"æŒ‰ä»»æ„é”®ç»§ç»­..."<<endl;
                 getch();
         }
         if(opt == "4") Create_group(user_id);
