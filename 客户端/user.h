@@ -24,7 +24,6 @@ int Sign_up();                                  // 用户注册
 int Sign_in();                                  // 用户登录
 int Change_info(int user_id);                   // 修改个人信息
 int Mark_user(int user_id,int dest_id);         // 关注用户
-int Apply_group(int user_id,int group_id);      // 申请加入用户组
 void user_show_info(int user_id);               // 查看个人信息
 void Show_users();                              // 查看所有用户
 void View_user(int uid,int user_id);            // 查看某个用户信息
@@ -40,22 +39,21 @@ int Change_info(int user_id){  // 修改个人信息
     for(int i=0;i<res1.size();i++) {
         vector<string> res2=split(res1[i],":::");
         if(res2[0]==itos(user_id)) {
-            int opt;
+            string opt;
             cout<<"1.修改昵称\t2.修改密码"<<endl;
-            opt = getch();
-            if(opt==1) {
-                cout<<"请输入新昵称"<<endl;
+            opt=getch();
+            if(opt=="1") {
+                cout<<"请输入新昵称:";
                 cin>>nickname;
                 str1="update_user:::user_nickname:::"+itos(user_id)+":::"+nickname;
                 recv_data(str1);
                 return 1;
             }
-            if(opt==2) {
-                cout<<"请输入新密码"<<endl;
+            if(opt=="2") {
+                cout<<"请输入新密码:";
                 cin>>password;
                 str2="update_user:::user_pwd:::"+itos(user_id)+":::"+password;
                 recv_data(str2);
-                //cout<<str<<endl;
                 return 1;
             }
         }
@@ -69,6 +67,13 @@ int Mark_user(int user_id,int dest_id){ // 关注用户
     for(int i=0;i<res1.size();i++) {
         vector<string> res2=split(res1[i],":::");
         if(res2[0]==itos(user_id)) {
+            vector<string> res3=split(res2[11],"::");
+            for(int j=0;j<res3.size();j++) {
+                if(res3[j]==itos(dest_id)) {
+                    cout<<"已关注该用户"<<endl;
+                    return 0;
+                }
+            }
             res2[11]+="::";
             res2[11]+=itos(dest_id);
             str1="update_user:::favorite_user:::"+itos(user_id)+":::"+res2[11];
@@ -78,35 +83,7 @@ int Mark_user(int user_id,int dest_id){ // 关注用户
     }
     return 0;
 }
-int Apply_group(int user_id,int group_id){// 申请加入用户组
-    string str,str1;
-    str=recv_data("get_user");
-    vector<string> res1=split(str,"&&&");
-    for(int i=0;i<res1.size();i++) {
-        vector<string> res2=split(res1[i],":::");
-        if(res2[0]==itos(user_id)) {
-            res2[8]+="::";
-            res2[8]+=itos(group_id);
-            str1="update_user:::entered_group:::"+itos(user_id)+":::"+res2[8];
-            recv_data(str1);
-            str1=recv_data("get_group");
-            vector<string> res3=split(str1,"&&&");
-            for(int j=0;j<res3.size();j++) {
-                vector<string> res4=split(res3[j],":::");
-                cout<<res4[0]<<endl;
-                if(res4[0]==itos(group_id)) {
-                    res4[3]+="::";
-                    res4[3]+=itos(user_id);
-                    str1="update_group:::group_member:::"+itos(group_id)+":::"+res4[3];
-                    recv_data(str1);
-                    //cout<<str1<<endl;
-                    return 1;
-                }
-            }
-        }
-    }
-    return 0;
-}
+
 void Show_users(){// 查看所有用户
     string str;
     str=recv_data("get_user");
@@ -225,11 +202,12 @@ void user_show_info(int user_id)
                 if(Apply_group(user_id,group_id)) {
                     cout<<"加入成功"<<endl;
                     cout<<"按任意键继续..."<<endl;
-                    getchar();
                     getch();
                 }
                 else {
                     cout<<"加入失败"<<endl;
+                    cout<<"按任意键继续..."<<endl;
+                    getch();
                 }
             }
             if(opt == "3") return;
@@ -324,16 +302,19 @@ void View_user(int uid,int user_id)
             string opt;
             opt = getch();
             if(opt == "1") {
-                if(Mark_user(user_id,uid)) {
+                if(Mark_user(user_id,uid)&&user_id!=uid) {
                     cout<<"关注成功"<<endl;
+                    return ;
                 }
                 else {
                     cout<<"关注失败"<<endl;
+                    return ;
                 }
             }
             if(opt == "2") return;
         }
     }
+    cout<<"该用户不存在"<<endl;
 }
 
 void Find_user(string nickname)
@@ -394,6 +375,11 @@ int Sign_in()
         char ch=getch();
         if(ch==13) {
             break;
+        }
+        else if(ch==8) {
+            cout<<"\b";
+            cout<<" ";
+            cout<<"\b";
         }
         else {
             word+=ch;
