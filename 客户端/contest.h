@@ -6,8 +6,13 @@
 #include "dataconv.h"
 using namespace std;
 
-// ContestÆª
-time_t convert_str_to_tm(char * str_time);                       // Ê±¼ä×ª»¯
+/**
+½éÉÜ£º¸ÃÎÄ¼şÖ÷ÒªÊÇ±ÈÈü²¿·ÖµÄ¹¦ÄÜÊµÏÖ¡£
+¹¦ÄÜ£º´´½¨±ÈÈü£¬²éÕÒ±ÈÈü£¬²é¿´±ÈÈü£¬²Î¼Ó±ÈÈü£¬²é¿´ÌâÄ¿¡¢ÅÅÃû¡¢ÆÀ²âÇé¿ö¡£
+×÷Õß£ºHerod
+Ê±¼ä£º2020-05-10
+**/
+
 void Show_contest(string type,int user_id);                     // ÁĞ³öËùÓĞ±ÈÈü
 int  Create_contest(int user_id);                               // ´´½¨±ÈÈü
 int  Find_contest(int user_id);                                 // ²éÕÒ±ÈÈü
@@ -15,31 +20,83 @@ int  IC_view_contest(int contest_id,int user_id);               // ½øÈë±ÈÈü
 void IC_view_rank(int contest_id);                              // ²é¿´ÅÅÃû
 void IC_view_problem(int contest_id,int pro_id,int user_id);    // ²é¿´ÌâÄ¿
 void IC_submit_code(int contest_id,int pro_id,int user_id);     // Ìá½»´úÂë
-void IC_view_status(int contest_id);                            // ²é¿´ÆÀ²â×´Ì¬
+void IC_view_status(int contest_id);                            // ²é¿´ÊµÊ±²âÆÀ
+time_t convert_str_to_tm(char * str_time);                      // Ê±¼ä×ª»¯
 
-// ContestÆª
-int Find_contest(int user_id)               // ²éÕÒ±ÈÈü
+
+void Show_contests(string type,int user_id)                     // ²é¿´±ÈÈü,Êä³ö±ÈÈü¼òÒªĞÅÏ¢
 {
+    /*
+    Êı¾İ½ÓÊÕ¸ñÊ½£º
+    id:::title:::start_time:::length:::status:::owner:::group&&&
+    */
+    cout<<endl<<setw(5)<<"id"<<setw(20)<<"title"<<setw(20)<<"start_time"<<setw(20)<<"length"<<setw(20)<<"status"<<endl<<endl;
     vector<string> msgs = split(recv_data("view_contests"),"&&&");
-    vector<string> msg;
+    for(int i = 0 ; i < msgs.size() ; i  ++)
+    {
+        vector<string> msg = split(msgs[i],":::");
+        if(msg[0] == "None") {cout<<"None"<<endl;break;}        // ĞÅÏ¢Îª¿ÕÊä³öNone
+        if(type == "own" && msg[5] != itos(user_id)) continue;  // É¸Ñ¡×Ô¼º´´½¨µÄ±ÈÈü
+        cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<endl;
+    }
+    cout<<endl;
+}
+
+int Create_contest(int user_id)                                 // ´´½¨±ÈÈü
+{
+    system("CLS");
+    cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (´´½¨±ÈÈü)"<<endl<<endl;
+    string contest_title;                                       // ±ÈÈüÃû³Æ
+    string contest_start_time;                                  // ¿ªÊ¼Ê±¼ä
+    int contest_length;                                         // ±ÈÈüÊ±³¤
+    string contest_type;                                        // ±ÈÈüÀàĞÍ
+    string problems;                                            // ±ÈÈüÌâÄ¿
+    cout<<"ÇëÊäÈë±ÈÈü±êÌâ£º";cin>>contest_title;
+    cout<<"ÇëÊäÈë±ÈÈü¿ªÊ¼Ê±¼ä(Äê/ÔÂ/ÈÕ/Ê±/·Ö):";cin>>contest_start_time;
+    cout<<"ÇëÊäÈë±ÈÈüÊ±³¤(ÒÔ·ÖÖÓÎªµ¥Î»)£º";cin>>contest_length;
+    cout<<"ÇëÊäÈë±ÈÈüÀàĞÍ(pulic/private/password)£º";cin>>contest_type;
+    cout<<"ÇëÊäÈë±ÈÈüÌâÄ¿(ÓÃ/¸ô¿ª)£º";cin>>problems;
+    vector<string > tmp = split(contest_start_time,"/");
+    // °Ñ×Ö·û´®±íÊ¾µÄÊ±¼ä×ª»¯³ÉÃëÊı
+    int seconds = convert_str_to_tm((char *)((tmp[0]+"-"+tmp[1]+"-"+tmp[2]+" "+tmp[3]+":"+tmp[4]+":00").data()));
+    problems = zip(split(problems,"/"),"::");
+    // Ä¬ÈÏÓÃ»§×éÎª1
+    string contest_group = "1";
+    /*
+    Êı¾İ·¢ËÍ¸ñÊ½£º
+    create_contest:::user_id:::group_id:::start_time:::length:::title:::type:::problem
+    */
+    string msg = "create_contest:::"+itos(user_id)+":::"+contest_group+":::"+itos(seconds)+":::"+itos(contest_length*60)+":::"+contest_title+":::"+contest_type+":::"+problems;
+    recv_data(msg);
+    cout<<"±ÈÈü´´½¨³É¹¦£¡°´ÈÎÒâ¼ü·µ»Ø..."<<endl;
+    getch();
+}
+
+int Find_contest(int user_id)                                   // ²éÕÒ±ÈÈü,Ê¹ÓÃkmpËã·¨½øĞĞ×Ö·û´®Æ¥Åä
+{
     string name;
     cout<<"ÇëÊäÈë±ÈÈüÃû³Æ:";
     cin>>name;
-    string opt;
     while(true)
     {
         system("CLS");
         cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (±ÈÈüÒ³) "<<endl;
         cout<<"1.½øÈë±ÈÈü    2.·µ»Ø"<<endl<<endl;
+        /*
+        Êı¾İ½ÓÊÕ¸ñÊ½£º
+        id:::title:::start_time:::length:::status:::owner:::group&&&
+        */
+        vector<string> msgs = split(recv_data("view_contests"),"&&&");
         cout<<setw(5)<<"id"<<setw(20)<<"title"<<setw(20)<<"start_time"<<setw(20)<<"length"<<endl<<endl;
         for(int i = 0 ; i < msgs.size() ; i ++)
         {
-            msg = split(msgs[i],":::");
+            vector<string> msg = split(msgs[i],":::");
             if(msg[0] == "None") {cout<<"None"<<endl;break;}
             if(!match(msg[1],name)) continue;
             cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<endl;
         }
         cout<<endl;
+        string opt;
         opt = getch();
         if(opt == "2") return 0;
         if(opt == "1")
@@ -52,31 +109,15 @@ int Find_contest(int user_id)               // ²éÕÒ±ÈÈü
     }
 }
 
-void Show_contests(string type,int user_id)                                         // ²é¿´±ÈÈü
+void My_contests(int user_id)                                   // ²é¿´×Ô¼º´´½¨µÄ±ÈÈü
 {
-    vector<string> msgs = split(recv_data("view_contests"),"&&&");
-    vector<string> msg;
-    cout<<endl;
-    cout<<setw(5)<<"id"<<setw(20)<<"title"<<setw(20)<<"start_time"<<setw(20)<<"length"<<setw(20)<<"status"<<endl<<endl;
-    for(int i = 0 ; i < msgs.size() ; i  ++)
-    {
-        msg = split(msgs[i],":::");
-        if(msg[0] == "None") {cout<<"None"<<endl;break;}
-        if(type == "own" && msg[5] != itos(user_id)) continue;
-        cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<endl;
-    }
-    cout<<endl;
-}
-
-void My_contests(int user_id)                                         // ²é¿´±ÈÈü
-{
-    string opt;
     while(true)
     {
         system("CLS");
         cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÎÒµÄ±ÈÈü) "<<endl;
         cout<<"1.½øÈë±ÈÈü    2.·µ»Ø"<<endl<<endl;
         Show_contests("own",user_id);
+        string opt;
         opt = getch();
         if(opt == "1")
         {
@@ -89,23 +130,15 @@ void My_contests(int user_id)                                         // ²é¿´±ÈÈ
     }
 }
 
-int IC_view_contest(int contest_id,int user_id)                                        // ²é¿´±ÈÈü
+int IC_view_contest(int contest_id,int user_id)                 // ½øÈë±ÈÈü£¬²é¿´ÏêÇé
 {
-    string opt;
     while(true)
     {
         system("CLS");
         cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (±ÈÈüÒ³) "<<endl;
-        vector<string> msgs = split(recv_data("IC_view_contest:::"+itos(contest_id)),"&&&");
-        if(msgs[0] == "None")
-        {
-            cout<<"This contest is not running."<<endl;
-            cout<<"°´ÈÎÒâ¼ü·µ»Ø..."<<endl;
-            getch();
-            return 1;
-        }
         cout<<"1.²é¿´ÌâÄ¿    2.²é¿´ÅÅÃû    3.²é¿´ÊµÊ±²âÆÀ    4.·µ»Ø"<<endl<<endl;
-        vector<string> msg = split(msgs[0],":::");;
+        vector<string> msgs = split(recv_data("IC_view_contest:::"+itos(contest_id)),"&&&");
+        vector<string> msg  = split(msgs[0],":::");;
         cout<<msg[0]<<"    started at: "<<msg[1]<<"    status: "<<msg[3]<<"    length: "<<msg[2]<<endl<<endl;
         cout<<setw(5)<<"id"<<setw(20)<<"title"<<setw(20)<<"submit"<<setw(20)<<"solved"<<endl<<endl;
         for(int i = 2 ; i < msgs.size() ; i  ++)
@@ -115,6 +148,7 @@ int IC_view_contest(int contest_id,int user_id)                                 
             cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<endl;
         }
         cout<<endl;
+        string opt;
         opt = getch();
         if(opt == "1")
         {
@@ -123,16 +157,13 @@ int IC_view_contest(int contest_id,int user_id)                                 
             cin>>ICP_id;
             IC_view_problem(contest_id,ICP_id,user_id);
         }
-        if(opt == "2")
-            IC_view_rank(contest_id);
-        if(opt == "3")
-            IC_view_status(contest_id);
-        if(opt == "4")
-            break;
+        if(opt == "2")  IC_view_rank(contest_id);
+        if(opt == "3")  IC_view_status(contest_id);
+        if(opt == "4")  break;
     }
 }
 
-void IC_view_problem(int contest_id,int ICP_id,int user_id)
+void IC_view_problem(int contest_id,int ICP_id,int user_id)     // ²é¿´ÌâÄ¿
 {
     while(true)
     {
@@ -140,6 +171,7 @@ void IC_view_problem(int contest_id,int ICP_id,int user_id)
         string opt;
         cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÌâÄ¿Ò³) "<<endl;
         vector<string> msgs = split(recv_data("IC_view_problem:::"+itos(contest_id)+":::"+itos(ICP_id)),"&&&");
+        // ±ÈÈü¿ªÊ¼Ç°²»¿ÉÒÔ²é¿´ÌâÄ¿ºÍÌá½»´úÂë
         if(msgs[0] == "This contest is not running.")
         {
             cout<<endl<<"This contest is not running."<<endl<<endl;
@@ -148,10 +180,10 @@ void IC_view_problem(int contest_id,int ICP_id,int user_id)
             break;
         }
         cout<<"1.Ìá½»´úÂë    2.·µ»Ø"<<endl<<endl;
-        vector<string> msg;
+        // Êä³öÌâÄ¿ÏêÇé
         for(int i = 1 ; i < msgs.size() ; i  ++)
         {
-            msg = split(msgs[i],":::");
+            vector<string> msg = split(msgs[i],":::");
             for(int j = 0 ; j < msg.size() ; j ++)
                 cout<<msg[j]<<" ";
             cout<<endl;
@@ -165,23 +197,56 @@ void IC_view_problem(int contest_id,int ICP_id,int user_id)
     }
 }
 
+void IC_view_rank(int contest_id)                               // ²é¿´ÅÅÃû
+{
+    system("CLS");
+    cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÅÅÃûÒ³) "<<endl;
+    vector<string> msgs = split(recv_data("IC_view_rank:::"+itos(contest_id)),"&&&");
+    cout<<endl<<setw(6)<<"rank"<<setw(15)<<"user"<<setw(15)<<"score"<<setw(15)<<"penalty"<<endl<<endl;
+    for(int i = 0 ; i < msgs.size() ; i ++)
+    {
+        vector<string> msg = split(msgs[i],":::");
+        if(msg[0] == "None") {cout<<"None"<<endl;break;}
+        cout<<setw(6)<<msg[0]<<setw(15)<<msg[1]<<setw(15)<<msg[2]<<setw(15)<<msg[3]<<endl;
+    }
+    cout<<endl;
+    cout<<"°´ÈÎÒâ¼ü·µ»Ø..."<<endl;
+    getch();
+}
 
-void IC_submit_code(int contest_id,int ICP_id,int user_id)
+void IC_view_status(int contest_id)                             // ²é¿´ÊµÊ±²âÆÀ
+{
+    system("CLS");
+    cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÊµÊ±ÆÀ²âÒ³) "<<endl;
+    vector<string> msgs = split(recv_data("IC_view_status:::"+itos(contest_id)),"&&&");
+    cout<<endl<<setw(5)<<"No."<<setw(20)<<"problem"<<setw(20)<<"user"<<setw(20)<<"time"<<setw(20)<<"language"<<setw(20)<<"result"<<endl<<endl;
+    for(int i = 0 ; i < msgs.size() ; i  ++)
+    {
+        vector<string> msg = split(msgs[i],":::");
+        if(msg[0] == "None") {cout<<"None"<<endl;break;}
+        cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<setw(20)<<msg[5]<<endl;
+    }
+    cout<<endl<<"°´ÈÎÒâ¼ü·µ»Ø..."<<endl;
+    getch();
+}
+
+void IC_submit_code(int contest_id,int ICP_id,int user_id)      // Ìá½»´úÂë
 {
     string code;
     cout<<"ÇëÊäÈë´úÂë£º"<<endl;
     cin>>code;
-    cout<<"ÇëÑ¡ÔñÓïÑÔ£º1. C    2. C++    3. Python2    4. Python3    5. Java"<<endl;
+    cout<<"ÇëÑ¡ÔñÓïÑÔ:"<<endl<<"1. C    2. C++    3. Python2    4. Python3    5. Java"<<endl;
     string lang;
     lang = getch();
     map<string,string> mp;
     mp["1"] = "C";mp["2"] = "C++";mp["3"] = "Python2";mp["4"] = "Python3";mp["5"] = "Java";
-    if(lang != "1" && lang != "2" && lang != "3" && lang != "4" && lang != "5")
-        lang = "1";
+    // Ä¬ÈÏÓïÑÔÎªCÓïÑÔ
+    if(mp[lang] == "")  lang = "1";
     system("CLS");
     string msgg = recv_data("IC_submit_code:::"+itos(contest_id)+":::"+itos(user_id)+":::"+itos(ICP_id)+":::"+code+":::"+mp[lang]);
     vector<string> msgs = split(msgg,"&&&");
     vector<string> msg;
+    // Èç¹û±ÈÈüÒÑ¾­½áÊøÔò²»ÄÜÌá½»´úÂë
     if(msgg == "This contest is not running.")
     {
         cout<<endl<<"This contest is not running."<<endl;
@@ -199,70 +264,7 @@ void IC_submit_code(int contest_id,int ICP_id,int user_id)
     getch();
 }
 
-void IC_view_rank(int contest_id)
-{
-    system("CLS");
-    cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÅÅÃûÒ³) "<<endl;
-    vector<string> msgs = split(recv_data("IC_view_rank:::"+itos(contest_id)),"&&&");
-    vector<string> msg;
-    cout<<endl<<setw(6)<<"rank"<<setw(15)<<"user"<<setw(15)<<"score"<<setw(15)<<"penalty"<<endl<<endl;
-    for(int i = 0 ; i < msgs.size() ; i ++)
-    {
-        msg = split(msgs[i],":::");
-        if(msg[0] == "None") {cout<<"None"<<endl;break;}
-        cout<<setw(6)<<msg[0]<<setw(15)<<msg[1]<<setw(15)<<msg[2]<<setw(15)<<msg[3]<<endl;
-    }
-    cout<<endl;
-    cout<<"°´ÈÎÒâ¼ü·µ»Ø..."<<endl;
-    getch();
-}
-
-
-void IC_view_status(int contest_id)
-{
-    system("CLS");
-    cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÊµÊ±ÆÀ²âÒ³) "<<endl;
-    vector<string> msgs = split(recv_data("IC_view_status:::"+itos(contest_id)),"&&&");
-    vector<string> msg;
-    cout<<endl<<setw(5)<<"No."<<setw(20)<<"problem"<<setw(20)<<"user"<<setw(20)<<"time"<<setw(20)<<"language"<<setw(20)<<"result"<<endl<<endl;
-    for(int i = 0 ; i < msgs.size() ; i  ++)
-    {
-        msg = split(msgs[i],":::");
-        if(msg[0] == "None") {cout<<"None"<<endl;break;}
-        cout<<setw(5)<<msg[0]<<setw(20)<<msg[1]<<setw(20)<<msg[2]<<setw(20)<<msg[3]<<setw(20)<<msg[4]<<setw(20)<<msg[5]<<endl;
-    }
-    cout<<endl<<"°´ÈÎÒâ¼ü·µ»Ø..."<<endl;
-    getch();
-}
-
-
-
-int Create_contest(int user_id)                               // ´´½¨±ÈÈü
-{
-    system("CLS");
-    cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (´´½¨±ÈÈü)"<<endl<<endl;
-    string contest_title;
-    string contest_start_time;
-    int contest_length;
-    string contest_type;
-    string problems;
-    cout<<"ÇëÊäÈë±ÈÈü±êÌâ£º";cin>>contest_title;
-    cout<<"ÇëÊäÈë±ÈÈü¿ªÊ¼Ê±¼ä(Äê/ÔÂ/ÈÕ/Ê±/·Ö):";cin>>contest_start_time;
-    cout<<"ÇëÊäÈë±ÈÈüÊ±³¤(ÒÔ·ÖÖÓÎªµ¥Î»)£º";cin>>contest_length;
-    cout<<"ÇëÊäÈë±ÈÈüÀàĞÍ(pulic/private/password)£º";cin>>contest_type;
-    cout<<"ÇëÊäÈë±ÈÈüÌâÄ¿(ÓÃ/¸ô¿ª)£º";cin>>problems;
-    vector<string > tmp = split(contest_start_time,"/");
-    int seconds = convert_str_to_tm((char *)((tmp[0]+"-"+tmp[1]+"-"+tmp[2]+" "+tmp[3]+":"+tmp[4]+":00").data()));
-    problems = zip(split(problems,"/"),"::");
-    string contest_group = "1";
-    string msg = "create_contest:::"+itos(user_id)+":::"+contest_group+":::"+itos(seconds)+":::"+itos(contest_length*60)+":::"+contest_title+":::"+contest_type+":::"+problems;
-    //cout<<msg<<endl;
-    recv_data(msg);
-    cout<<"±ÈÈü´´½¨³É¹¦£¡°´ÈÎÒâ¼ü·µ»Ø..."<<endl;
-    getch();
-}
-
-time_t convert_str_to_tm(char * str_time)
+time_t convert_str_to_tm(char * str_time)                       // °Ñ×Ö·û´®±íÊ¾µÄÊ±¼ä×ª»¯³ÉÒ»¸öÕûÊı
 {
     struct tm tt;
     memset(&tt,0,sizeof(tt));
