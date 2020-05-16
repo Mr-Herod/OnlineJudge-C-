@@ -35,14 +35,14 @@ int Change_info(int user_id){  // 修改个人信息
                 cout<<"牛人自制在线评测系统 ver-1.0 (个人信息页) "<<endl;
                 cout<<"1.修改昵称    2.修改密码    3.退出"<<endl<<endl;
                 opt=getch();
-                if(opt=="1") {
+                if(opt=="1") {     //修改昵称
                     cout<<"请输入新昵称:";
                     cin>>nickname;
                     str1="update_user:::user_nickname:::"+itos(user_id)+":::"+nickname;
                     recv_data(str1);
                     return 1;
                 }
-                if(opt=="2") {
+                if(opt=="2") {       //修改密码
                     cout<<"请输入新密码:";
                     cin>>password;
                     str2="update_user:::user_pwd:::"+itos(user_id)+":::"+password;
@@ -98,7 +98,7 @@ void Show_users(){// 查看所有用户
     }
 }
 
-void user_show_info(int user_id)
+void user_show_info(int user_id)//查看个人信息
 {
     while(true)
     {
@@ -108,7 +108,7 @@ void user_show_info(int user_id)
         string str;
         str=recv_data("get_user");
         vector<string> res1=split(str,"&&&");
-        for(int i=0;i<res1.size();i++) {
+        for(int i=0;i<res1.size();i++) {//将用户信息分割后输出
             vector<string> res2=split(res1[i],":::");
             if(res2[0]==itos(user_id)) {
                 cout<<"用户名:  "<<res2[1]<<endl;
@@ -190,7 +190,7 @@ void user_show_info(int user_id)
         }
         string opt;
         opt = getch();
-        if(opt == "1") {
+        if(opt == "1") {//选择修改自己的信息
 
             if(Change_info(user_id)) {
                 cout<<"修改成功!"<<endl;
@@ -202,7 +202,7 @@ void user_show_info(int user_id)
             }
             getch();
         }
-        if(opt == "2") {
+        if(opt == "2") {//选择加入某个用户组
             int group_id;
             cout<<"请输入用户组的ID:";
             cin>>group_id;
@@ -221,7 +221,7 @@ void user_show_info(int user_id)
     }
 }
 
-void View_user(int uid,int user_id)
+void View_user(int uid,int user_id)//查看某个用户的信息
 {
     while(true) {
         int flag=0;
@@ -320,7 +320,7 @@ void View_user(int uid,int user_id)
         else {
             string opt;
             opt = getch();
-            if(opt == "1") {
+            if(opt == "1") {//选择关注该用户
                 if(Mark_user(user_id,uid)&&user_id!=uid) {
                     cout<<"关注成功!"<<endl;
                     cout<<"按任意键继续..."<<endl;
@@ -339,7 +339,7 @@ void View_user(int uid,int user_id)
     }
 }
 
-void Find_user(string nickname,int user_id)
+void Find_user(string nickname,int user_id)//用kmp查找所有用户中昵称包含输入昵称的用户
 {
     while(true) {
         system("CLS");
@@ -363,7 +363,7 @@ void Find_user(string nickname,int user_id)
         }
         string opt;
         opt=getch();
-        if(opt=="1") {
+        if(opt=="1") {//选择查看某个用户的信息
             int uid;
             cout<<"请输入用户ID:";
             cin>>uid;
@@ -376,7 +376,7 @@ void Find_user(string nickname,int user_id)
     return ;
 }
 
-int Sign_up()
+int Sign_up()//注册用户
 {
     string username,nickname,word;
     cout<<"请输入用户名(不可超过20个字符)：";
@@ -403,13 +403,13 @@ int Sign_up()
 }
 
 
-int Sign_in()
+int Sign_in()//登录
 {
     string username,word,str;
     cout<<"请输入用户名：";
     cin>>username;
     cout<<"请输入密码：";
-    for(int i=0;;i++) {
+    for(int i=0;;i++) {//将输入的密码用*代替
         char ch=getch();
         if(ch==13) {
             break;
