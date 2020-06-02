@@ -69,6 +69,7 @@ class OjServer(threading.Thread):
                     break
 
         except:
+            #raise
             self.ss.close()
     
     def create_user(self,info):
@@ -82,8 +83,9 @@ class OjServer(threading.Thread):
         self.send("succeeded")
     
     def create_contest(self,info):
-        self.cursor.execute("insert into contest values(0,"+info[0]+","+info[1]+","+info[2]+","+info[3]+",'"+info[4]+"','"+info[5]+"','pending',' ','"+info[6]+"',' ');")
+        self.cursor.execute("insert into contest values(0,"+info[0]+","+info[1]+","+info[2]+","+info[3]+",'"+info[4]+"','"+info[5]+"','pending',' ','"+info[6]+"',' ',' ',' ');")
         self.conn.commit()
+        CR.refresh()
         self.send("succeeded")
     
     def update_user(self,info):
@@ -158,8 +160,10 @@ while(True):
             t_list[t_num].start()
             t_num += 1
         except:
+            #raise
             ss.close()
             s.close()
     except:
+        #raise
         s.close()
 

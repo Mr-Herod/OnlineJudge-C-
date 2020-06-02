@@ -140,6 +140,12 @@ class Contest(threading.Thread):
         msg = "&&&".join([status.toString() for status in self.status[::-1]])
         return msg
 
+    def reactive(self):
+        print(time.strftime("%H:%M:%S"),self.contest_id," reactived!!")
+        self.cursor.execute("select contest_title from contest where contest_id = "+str(self.contest_id)+";")
+        self.cursor.fetchone()
+        self.conn.commit()
+
 class ContestRunner(threading.Thread):
     def __init__(self,conn): 
         threading.Thread.__init__(self)
@@ -149,10 +155,20 @@ class ContestRunner(threading.Thread):
         self.running_contest = []                   # list(int)
         self.ended_contest   = [-1]                 # list(int)
         self.contests        = {}                   # dic(thread)
-        
-        
+       
     def run(self):
+        count = 0
         while(True):
+            self.refresh()
+            if(count == 1200):
+                print("reactive contests")
+                count = 0
+                for contest in self.running_contest:
+                    self.contests[contest].reactive()
+            count += 1
+
+    def refresh(self):
+        if ( 1 == 1 ):
             self.cursor.execute("select * from contest where contest_id not in ("+','.join([str(x) for x in self.pending_contest+self.running_contest+self.ended_contest])+");")
             rs = self.cursor.fetchall()
             self.conn.commit()
@@ -188,7 +204,7 @@ class ContestRunner(threading.Thread):
                         self.contests.pop(contest)
             for contest in tmp: 
                 self.running_contest.remove(contest)
-            time.sleep(5)
+            time.sleep(6)
     
     def submit_code(self,contest_id,uid,ICP_id,code,lang):
         if(contest_id in self.contests.keys()):
