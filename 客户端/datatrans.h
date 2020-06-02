@@ -17,13 +17,13 @@ int socket_init(int port,string addr)
     WSADATA Wsd;
     if(WSAStartup(MAKEWORD(1,1),&Wsd) != 0)
     {
-        cout << "·þÎñÆ÷Á¬½ÓÊ§°Ü£ºÌ×½Ó×ÖÆô¶¯Ê§°Ü" << endl;
+        cout << "æœåŠ¡å™¨è¿žæŽ¥å¤±è´¥ï¼šå¥—æŽ¥å­—å¯åŠ¨å¤±è´¥" << endl;
         return -1;
     }
     ScoketClient = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
     if (ScoketClient == INVALID_SOCKET)
     {
-        cout << "·þÎñÆ÷Á¬½ÓÊ§°Ü£º´´½¨Ì×½Ó×ÖÊ§°Ü" << endl;
+        cout << "æœåŠ¡å™¨è¿žæŽ¥å¤±è´¥ï¼šåˆ›å»ºå¥—æŽ¥å­—å¤±è´¥" << endl;
         WSACleanup();
         return -1;
     }
@@ -34,11 +34,11 @@ int socket_init(int port,string addr)
     int RetVal = connect(ScoketClient, (SOCKADDR*)&ServerAddr, sizeof(ServerAddr));
     if (RetVal == SOCKET_ERROR)
     {
-        cout << "Á´½Ó·þÎñÆ÷Ê§°Ü" << endl;
+        cout << "é“¾æŽ¥æœåŠ¡å™¨å¤±è´¥" << endl;
         socket_close();
         return -1;
     }
-    //cout<<"·þÎñÆ÷Á¬½Ó³É¹¦"<<endl;
+    //cout<<"æœåŠ¡å™¨è¿žæŽ¥æˆåŠŸ"<<endl;
 }
 
 
@@ -48,7 +48,7 @@ int send_data(string str)
     int RetVal = send(ScoketClient, (char*)str.data(), str.size() ,0);
     if (RetVal == SOCKET_ERROR)
     {
-        cout << "·¢ËÍÊý¾ÝÊ§°Ü" << endl;
+        cout << "å‘é€æ•°æ®å¤±è´¥" << endl;
         socket_close();
         return -1;
     }

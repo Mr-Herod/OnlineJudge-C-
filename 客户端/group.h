@@ -14,7 +14,41 @@ string Get_username(int user_id);                           // 获取用户昵�
 string Get_groupname(int group_id);                         // 获取用户组名
 
 // Group篇
+/*int Apply_group(int user_id,int group_id){// 申请加入用户组
+    string str,str1;
+    str=recv_data("get_user");
+    vector<string> res1=split(str,"&&&");
+    for(int i=0;i<res1.size();i++) {
+        vector<string> res2=split(res1[i],":::");
+        if(res2[0]==itos(user_id)) {
+            str1=recv_data("get_group");
+            vector<string> res3=split(str1,"&&&");
+            for(int j=0;j<res3.size();j++) {
+                vector<string> res4=split(res3[j],":::");
+                if(res4[0]==itos(group_id)) {
+                    vector<string> res5=split(res4[3],":::");
+                    for(int k=0;k<res5.size();i++) {
+                        if(res5[k]==itos(group_id)) {
+                            cout<<"您已在该用户组"<<endl;
+                            return 0;
+                        }
+                    }
+                    res2[8]+="::";
+                    res2[8]+=itos(group_id);
+                    str1="update_user:::entered_group:::"+itos(user_id)+":::"+res2[8];
+                    recv_data(str1);
 
+                    res4[3]+="::";
+                    res4[3]+=itos(user_id);
+                    str1="update_group:::group_member:::"+itos(group_id)+":::"+res4[3];
+                    recv_data(str1);
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}*/
 int Apply_group(int user_id,int group_id){// 申请加入用户组
     string str,str1;
     str=recv_data("get_user");
@@ -73,7 +107,7 @@ int View_group_contest(int group_id){// 查看用户组的比赛
     return 1;
 }
 
-void Show_groups(string type,int user_id){ // 查看所有用户组或者自己的用户组
+void Show_groups(string type,int user_id){ // 查看组
     string str;
     str=recv_data("get_group");
     cout<<setw(6)<<"ID"<<setw(15)<<"创建者"<<setw(15)<<"名称"<<setw(15)<<"成员数量"<<setw(15)<<"比赛数量"<<endl<<endl;
@@ -89,7 +123,8 @@ void Show_groups(string type,int user_id){ // 查看所有用户组或者自己�
         cout<<setw(15)<<res3.size()-1<<setw(15)<<res4.size()-1<<endl;
     }
 }
-void Find_group(string name){ //用kmp查找所有用户组昵称包含输入昵称的用户组
+void Find_group(string name){// 查找用户组
+    string str;
     str=recv_data("get_group");
     cout<<setw(6)<<"ID"<<setw(15)<<"创建者"<<setw(15)<<"名称"<<setw(15)<<"成员数量"<<setw(15)<<"比赛数量"<<endl<<endl;
     vector<string> res1=split(str,"&&&");
@@ -139,7 +174,7 @@ int Create_group(int user_id){// 创建用户组
     return 1;
 }
 
-string Get_username(int user_id)//返回用户名
+string Get_username(int user_id)
 {
     string str=recv_data("get_user");
     vector<string> users = split(str,"&&&");
@@ -152,7 +187,7 @@ string Get_username(int user_id)//返回用户名
     return "admin";
 }
 
-string Get_groupname(int group_id)//返回用户组名称
+string Get_groupname(int group_id)
 {
     string str=recv_data("get_group");
     vector<string> groups = split(str,"&&&");

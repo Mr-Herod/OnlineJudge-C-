@@ -1,12 +1,11 @@
 #include <bits/stdc++.h>
 #include <conio.h>
-#include "user.h"
-#include "group.h"
-#include "user.h"
-#include "contest.h"
-#include "problem.h"
-#include "datatrans.h"
-#include "dataconv.h"
+#include "user.h"                   // 用户模块
+#include "group.h"                  // 用户组模块
+#include "contest.h"                // 比赛模块
+#include "problem.h"                // 题目模块
+#include "datatrans.h"              // 数据传输模块
+#include "dataconv.h"               // 数据处理模块
 
 using namespace std;
 
@@ -21,10 +20,10 @@ void Gruop_page(int user_id);       // 用户组页面
 
 int main()
 {
-    //Index_page();
     system("color 2F");
-    Home_page(44);
+    Index_page();
     return 0;
+
 }
 
 
@@ -35,7 +34,7 @@ void Index_page()
     while(true)
     {
         system("CLS");
-        cout<<"牛人自制在线评测系统 ver-1.0 "<<endl;
+        cout<<"自制在线代码评测系统 ver-1.0 "<<endl;
         cout<<"1.注册    2.登录    3.退出"<<endl;
         opt = getch();
         if(opt == "1")  Sign_up();
@@ -71,7 +70,7 @@ void Home_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"牛人自制在线评测系统 ver-1.0 (个人信息页) "<<endl;
+        cout<<"自制在线代码评测系统 ver-1.0 (个人信息页) "<<endl;
         cout<<"1.查看个人信息    2.题目页    3.比赛页    4.用户页    5.用户组页    6.退出"<<endl;
         opt = getch();
         if(opt == "1")  user_show_info(user_id);
@@ -90,7 +89,7 @@ void Contest_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"牛人自制在线评测系统 ver-1.0 (比赛页) "<<endl;
+        cout<<"自制在线代码评测系统 ver-1.0 (比赛页) "<<endl;
         cout<<"1.我的比赛    2.进入比赛    3.搜索比赛    4.创建比赛    5.返回"<<endl<<endl;
         Show_contests("all",user_id);
         opt = getch();
@@ -115,7 +114,7 @@ void Probelm_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"牛人自制在线评测系统 ver-1.0 (题目页) "<<endl;
+        cout<<"自制在线代码评测系统 ver-1.0 (题目页) "<<endl;
         cout<<"1.通过的题目    2.尝试的题目    3.查看题目    4.搜索题目    5.返回"<<endl;
         Show_problems("all",user_id);
         opt = getch();
@@ -139,7 +138,7 @@ void User_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"牛人自制在线评测系统 ver-1.0 (用户页) "<<endl;
+        cout<<"自制在线代码评测系统 ver-1.0 (用户页) "<<endl;
         cout<<"1.查看用户    2.搜索用户    3.返回"<<endl<<endl;
         Show_users();
         opt = getch();
@@ -169,14 +168,14 @@ void Gruop_page(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"牛人自制在线评测系统 ver-1.0 (用户组页) "<<endl;
+        cout<<"自制在线代码评测系统 ver-1.0 (用户组页) "<<endl;
         cout<<"1.查看自己用户组    2.查看所有用户组    3.查找用户组    4.创建用户组    5.返回"<<endl<<endl;
         Show_groups("all",user_id);
         opt = getch();
         if(opt == "1")
         {
             system("CLS");
-            cout<<"牛人自制在线评测系统 ver-1.0 (用户组页) "<<endl;
+            cout<<"自制在线代码评测系统 ver-1.0 (用户组页) "<<endl;
             cout<<"1.查看自己用户组    2.查看所有用户组    3.查找用户组    4.创建用户组    5.返回"<<endl<<endl;
             Show_groups("own",user_id);
             cout<<"按任意键继续..."<<endl;
@@ -185,7 +184,7 @@ void Gruop_page(int user_id)
         if(opt == "2")
         {
             system("CLS");
-            cout<<"牛人自制在线评测系统 ver-1.0 (用户组页) "<<endl;
+            cout<<"自制在线代码评测系统 ver-1.0 (用户组页) "<<endl;
             cout<<"1.查看自己用户组    2.查看所有用户组    3.查找用户组    4.创建用户组    5.返回"<<endl<<endl;
             Show_groups("all",user_id);
             cout<<"按任意键继续..."<<endl;
@@ -196,7 +195,7 @@ void Gruop_page(int user_id)
                 cout<<"请输入要查找的用户组的名称:";
                 cin>>name;
                 system("CLS");
-                cout<<"牛人自制在线评测系统 ver-1.0 (用户组页) "<<endl;
+                cout<<"自制在线代码评测系统 ver-1.0 (用户组页) "<<endl;
                 cout<<"1.查看自己用户组    2.查看所有用户组    3.查找用户组    4.创建用户组    5.返回"<<endl<<endl;
                 Find_group(name);
                 cout<<"按任意键继续..."<<endl;

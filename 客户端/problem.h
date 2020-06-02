@@ -5,34 +5,34 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// ProblemÆª
-int  Find_pro(int user_id);                                 // ²éÕÒÌâÄ¿
-int  View_pro(int pro_id,int user_id);                      // ²é¿´ÌâÄ¿ÏêÇé
-void Show_problems(string type,int user_id);                // ²é¿´ËùÓĞÌâÄ¿
-void Submit_code(int pro_id,int user_id,string code);       // Ìá½»´úÂë
-int  Solved_problem(int user_id);                           // ²é¿´Í¨¹ıµÄÌâÄ¿
-int  Attempted_problem(int user_id);                        // ²é¿´³¢ÊÔ¹ıµÄÌâÄ¿
+// Problemç¯‡
+int  Find_pro(int user_id);                                 // æŸ¥æ‰¾é¢˜ç›®
+int  View_pro(int pro_id,int user_id);                      // æŸ¥çœ‹é¢˜ç›®è¯¦æƒ…
+void Show_problems(string type,int user_id);                // æŸ¥çœ‹æ‰€æœ‰é¢˜ç›®
+void Submit_code(int pro_id,int user_id,string code);       // æäº¤ä»£ç 
+int  Solved_problem(int user_id);                           // æŸ¥çœ‹é€šè¿‡çš„é¢˜ç›®
+int  Attempted_problem(int user_id);                        // æŸ¥çœ‹å°è¯•è¿‡çš„é¢˜ç›®
 
 
-void Submit_code(int pro_id,int user_id,string code)        // Ìá½»´úÂë
+void Submit_code(int pro_id,int user_id,string code)        // æäº¤ä»£ç 
 {
     string result = recv_data("submit_code:::"+itos(pro_id)+":::"+itos(user_id)+":::"+code);
-    cout<<"´úÂëÆÀ²â½á¹û£º"<<result<<endl;
-    cout<<"°´ÈÎÒâ¼ü·µ»Ø..."<<endl;
+    cout<<"ä»£ç è¯„æµ‹ç»“æœï¼š"<<result<<endl;
+    cout<<"æŒ‰ä»»æ„é”®è¿”å›..."<<endl;
     getch();
 }
 
-int Find_pro(int user_id)                                   // ²éÕÒÌâÄ¿
+int Find_pro(int user_id)                                   // æŸ¥æ‰¾é¢˜ç›®
 {
     string pro_title;
-    cout<<"ÇëÊäÈëÌâÄ¿±êÌâ£º"<<endl;
+    cout<<"è¯·è¾“å…¥é¢˜ç›®æ ‡é¢˜ï¼š"<<endl;
     cin>>pro_title;
     string opt;
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÌâÄ¿Ò³) "<<endl;
-        cout<<"1.²é¿´ÌâÄ¿  2.·µ»Ø"<<endl;
+        cout<<"è‡ªåˆ¶åœ¨çº¿ä»£ç è¯„æµ‹ç³»ç»Ÿ ver-1.0 (é¢˜ç›®é¡µ) "<<endl;
+        cout<<"1.æŸ¥çœ‹é¢˜ç›®  2.è¿”å›"<<endl;
         vector<string> msgs = split(recv_data("get_problem"),"&&&");
         cout<<endl<<setw(5)<<"id"<<setw(10)<<"oj"<<setw(20)<<"title"<<setw(20)<<"source"<<endl<<endl;
         for(int i = 0 ; i < msgs.size() ; i ++)
@@ -46,7 +46,7 @@ int Find_pro(int user_id)                                   // ²éÕÒÌâÄ¿
         if(opt == "1")
         {
             int pro_id;
-            cout<<"ÇëÊäÈëÌâÄ¿ID£º";
+            cout<<"è¯·è¾“å…¥é¢˜ç›®IDï¼š";
             cin>>pro_id;
             View_pro(pro_id,user_id);
         }
@@ -55,14 +55,14 @@ int Find_pro(int user_id)                                   // ²éÕÒÌâÄ¿
     }
 }
 
-int View_pro(int pro_id,int user_id)                       // ²é¿´ÌâÄ¿ÏêÇé
+int View_pro(int pro_id,int user_id)                       // æŸ¥çœ‹é¢˜ç›®è¯¦æƒ…
 {
     string opt;
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÌâÄ¿Ò³) "<<endl;
-        cout<<"1.Ìá½»´úÂë  2.·µ»Ø"<<endl<<endl;
+        cout<<"è‡ªåˆ¶åœ¨çº¿ä»£ç è¯„æµ‹ç³»ç»Ÿ ver-1.0 (é¢˜ç›®é¡µ) "<<endl;
+        cout<<"1.æäº¤ä»£ç   2.è¿”å›"<<endl<<endl;
         vector<string> problem_info = split(recv_data("get_problem"),"&&&");
         for(int i = 0 ; i < problem_info.size() ; i ++)
             if((split(problem_info[i],":::"))[0] == itos(pro_id))
@@ -75,7 +75,7 @@ int View_pro(int pro_id,int user_id)                       // ²é¿´ÌâÄ¿ÏêÇé
         if(opt == "1")
         {
             string code;
-            cout<<"ÇëÊäÈë´úÂë£º"<<endl;
+            cout<<"è¯·è¾“å…¥ä»£ç ï¼š"<<endl;
             cin>>code;
             Submit_code(pro_id,user_id,code);
         }
@@ -125,14 +125,14 @@ int Solved_problem(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÌâÄ¿Ò³) "<<endl;
-        cout<<"1.²é¿´ÌâÄ¿  2.·µ»Ø"<<endl;
+        cout<<"è‡ªåˆ¶åœ¨çº¿ä»£ç è¯„æµ‹ç³»ç»Ÿ ver-1.0 (é¢˜ç›®é¡µ) "<<endl;
+        cout<<"1.æŸ¥çœ‹é¢˜ç›®  2.è¿”å›"<<endl;
         Show_problems("solved",user_id);
         opt = getch();
         if(opt == "1")
         {
             int pro_id;
-            cout<<"ÇëÊäÈëÌâÄ¿ID£º";
+            cout<<"è¯·è¾“å…¥é¢˜ç›®IDï¼š";
             cin>>pro_id;
             View_pro(pro_id,user_id);
         }
@@ -146,14 +146,14 @@ int Attempted_problem(int user_id)
     while(true)
     {
         system("CLS");
-        cout<<"Å£ÈË×ÔÖÆÔÚÏßÆÀ²âÏµÍ³ ver-1.0 (ÌâÄ¿Ò³) "<<endl;
-        cout<<"1.²é¿´ÌâÄ¿  2.·µ»Ø"<<endl;
+        cout<<"è‡ªåˆ¶åœ¨çº¿ä»£ç è¯„æµ‹ç³»ç»Ÿ ver-1.0 (é¢˜ç›®é¡µ) "<<endl;
+        cout<<"1.æŸ¥çœ‹é¢˜ç›®  2.è¿”å›"<<endl;
         Show_problems("attempted",user_id);
         opt = getch();
         if(opt == "1")
         {
             int pro_id;
-            cout<<"ÇëÊäÈëÌâÄ¿ID£º";
+            cout<<"è¯·è¾“å…¥é¢˜ç›®IDï¼š";
             cin>>pro_id;
             View_pro(pro_id,user_id);
         }
