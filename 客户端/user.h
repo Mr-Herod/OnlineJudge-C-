@@ -409,7 +409,7 @@ int Sign_in()
     cout<<"请输入用户名：";
     cin>>username;
     cout<<"请输入密码：";
-    for(int i=0;;i++) {
+    for(int i=0;;i++) {//给输入的密码加密
         char ch=getch();
         if(ch==13) {
             break;
